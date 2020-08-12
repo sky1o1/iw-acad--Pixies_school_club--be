@@ -41,7 +41,7 @@ class Club(models.Model):
     president_name = models.CharField(max_length=150, default='Megha')
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    logo = models.ImageField()
+    logo = models.ImageField(upload_to='media/images/club_pic/logo')
 
     def __str__(self):
         return self.club_name
