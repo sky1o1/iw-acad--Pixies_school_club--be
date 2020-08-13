@@ -1,4 +1,5 @@
 from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from rest_framework import status
 from rest_framework.response import Response
@@ -30,11 +31,7 @@ class LoginAdminViewSet(LoginView):
             return redirect('/home/')
         else:
             print('user not verified', user)
-            return self.form_valid(form)
-
-    def get_form(self, form_class=None):
-        if self.request.user.is_authenticated:
-            return redirect('/home/')
+            return HttpResponse('user not found')
 
 
 class SignupAdminViewSet(FormView):
