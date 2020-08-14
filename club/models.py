@@ -12,7 +12,7 @@ class User(AbstractUser):
 
 
 class UserStaffs(AbstractUser):
-    middle_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50, blank=True)
     is_staff = models.BooleanField(default=True)
 
     groups = None
@@ -20,7 +20,7 @@ class UserStaffs(AbstractUser):
 
 
 class UserMembers(AbstractUser):
-    middle_name = models.CharField(max_length=50)
+    middle_name = models.CharField(max_length=50, blank=True)
 
     groups = None
     user_permissions = None
