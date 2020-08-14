@@ -16,7 +16,18 @@ class AdminRegistrationSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-    def save(self, **kwargs):
+    def validate(self, attrs):
+        email = User.objects.filter(email=attrs['email'])
+        if email.exists():
+            raise serializers.ValidationError('Email already in use')
+
+        password = attrs['password']
+        confirm_password = attrs['confirm_password']
+        if password != confirm_password:
+            raise serializers.ValidationError({'Password do not match'})
+        return attrs
+
+    def create(self, validated_data):
         user = User(
             first_name=self.validated_data['first_name'],
             middle_name=self.validated_data['middle_name'],
@@ -25,10 +36,6 @@ class AdminRegistrationSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],
         )
         password = self.validated_data['password']
-        confirm_password = self.validated_data['confirm_password']
-
-        if password != confirm_password:
-            raise serializers.ValidationError({'Password do not match'})
         user.set_password(password)
         user.save()
         return user
@@ -44,7 +51,18 @@ class StaffRegistrationSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-    def save(self, **kwargs):
+    def validate(self, attrs):
+        email = UserStaffs.objects.filter(email=attrs['email'])
+        if email.exists():
+            raise serializers.ValidationError('Email already in use')
+
+        password = attrs['password']
+        confirm_password = attrs['confirm_password']
+        if password != confirm_password:
+            raise serializers.ValidationError({'Password do not match'})
+        return attrs
+
+    def create(self, validated_data):
         user = UserStaffs(
             first_name=self.validated_data['first_name'],
             middle_name=self.validated_data['middle_name'],
@@ -53,10 +71,6 @@ class StaffRegistrationSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],
         )
         password = self.validated_data['password']
-        confirm_password = self.validated_data['confirm_password']
-        if password != confirm_password:
-            raise serializers.ValidationError({'Password do not match'})
-
         user.set_password(password)
         user.save()
         return user
@@ -72,7 +86,18 @@ class MemberRegistrationSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
 
-    def save(self):
+    def validate(self, attrs):
+        email = UserMembers.objects.filter(email=attrs['email'])
+        if email.exists():
+            raise serializers.ValidationError('Email already in use')
+
+        password = attrs['password']
+        confirm_password = attrs['confirm_password']
+        if password != confirm_password:
+            raise serializers.ValidationError({'Password do not match'})
+        return attrs
+
+    def create(self, validated_data):
         user = UserMembers(
             first_name=self.validated_data['first_name'],
             middle_name=self.validated_data['middle_name'],
@@ -81,9 +106,6 @@ class MemberRegistrationSerializer(serializers.ModelSerializer):
             email=self.validated_data['email'],
         )
         password = self.validated_data['password']
-        confirm_password = self.validated_data['confirm_password']
-        if password != confirm_password:
-            raise serializers.ValidationError({'Password do not match'})
         user.set_password(password)
         user.save()
         return user
