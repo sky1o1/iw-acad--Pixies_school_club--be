@@ -2,8 +2,8 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views import ClubViewSet, LoginAdminViewSet, SignupAdminViewSet, home
-from .api_accounts.views import AdminRegistrationView, StaffRegistrationView, MemberRegistrationView
+from .views import ClubViewSet, home
+from .accounts.views import AdminRegistrationView, StaffRegistrationView, MemberRegistrationView
 
 
 r = DefaultRouter()
@@ -15,6 +15,6 @@ urlpatterns = [
     path('signup/admin/', AdminRegistrationView.as_view()),
     path('signup/staff/', StaffRegistrationView.as_view()),
     path('signup/member/', MemberRegistrationView.as_view()),
-    path('home/', home),
-    path('home/', home),
+    path('login/', obtain_auth_token, name='login'),
+    path('home/', home, name='home'),
 ] + r.urls
