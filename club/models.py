@@ -31,7 +31,7 @@ class UserMembers(AbstractUser):
 
 
 class UserDetail(models.Model):
-    dob = models.DateField()
+    dob = models.DateField(default= "2020-01-01" )
     address = models.CharField(max_length=200)
     phone_num = models.IntegerField()
     bio = models.TextField()
@@ -46,6 +46,9 @@ class Club(models.Model):
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to='media/images/club_pic/logo')
+    user = models.ManyToManyField(User)
+    user_staff = models.ManyToManyField(UserStaffs)
+    user_member = models.ManyToManyField(UserMembers)
 
     def __str__(self):
         return self.club_name
