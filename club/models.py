@@ -47,8 +47,8 @@ class Club(models.Model):
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to='media/images/club_pic/logo')
     user = models.ManyToManyField(User)
-    user_staff = models.ManyToManyField(UserStaffs)
-    user_member = models.ManyToManyField(UserMembers)
+    user_staffs = models.ManyToManyField(UserStaffs)
+    user_members = models.ManyToManyField(UserMembers)
 
     def __str__(self):
         return self.club_name

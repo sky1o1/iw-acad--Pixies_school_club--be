@@ -5,9 +5,8 @@ from rest_framework.authtoken.views import obtain_auth_token
 from .views import ClubViewSet, home
 from .accounts.views import AdminRegistrationView, StaffRegistrationView, MemberRegistrationView
 
-
 r = DefaultRouter()
-r.register('clubs,', ClubViewSet)
+# r.register('clubs,', ClubViewSet)
 
 
 urlpatterns = [
