@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
+from django.db.models import Q
 
 from club.models import UserStaffs, UserMembers
 
@@ -110,3 +111,69 @@ class MemberRegistrationSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
+class StaffLoginSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(allow_blank=True, read_only=True)
+    username = serializers.CharField(required=False, allow_blank=True)
+    email = serializers.EmailField(required=False, allow_blank=True)
+
+    class Meta:
+        model = UserStaffs
+        fields = ['username', 'password', 'email', 'token']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def validate(self, data):
+        user_obj = None
+        email = data.get('email', None)
+        username = data.get('username', None)
+        password = data['password']
+        if not email and not username:
+            raise serializers.ValidationError({'error': 'Email or Username required'})
+        user = UserStaffs.objects.filter(
+                Q(username=username) |
+                Q(email=email)
+        ).distinct()
+        if user.exists() and user.count() == 1:
+            user_obj = user.first()
+        else:
+            raise serializers.ValidationError({'error': 'Username/Email is not valid'})
+        if user_obj:
+            if not user_obj.check_password(password):
+                raise serializers.ValidationError({'error': 'Incorrect password'})
+        data['token'] = 'TOKEN'
+        return data
+
+
+class MemberLoginSerializer(serializers.ModelSerializer):
+    token = serializers.CharField(allow_blank=True, read_only=True)
+    username = serializers.CharField(required=False, allow_blank=True)
+    email = serializers.EmailField(required=False, allow_blank=True)
+
+    class Meta:
+        model = UserMembers
+        fields = ['username', 'password', 'email', 'token']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def validate(self, data):
+        email = data.get('email', None)
+        username = data.get('username', None)
+        password = data['password']
+        if not email and not username:
+            raise serializers.ValidationError({'error': 'Email or Username required'})
+        user = UserStaffs.objects.filter(
+            Q(email=email) |
+            Q(username=username)
+        ).distinct()
+        if user.exists() and user.count() == 1:
+            user_obj = user.first()
+        else:
+            raise serializers.ValidationError({'error': 'Username/Email is not valid'})
+        if user_obj:
+            if not user_obj.check_password(password):
+                raise serializers.ValidationError({'error': 'Incorrect password'})
+        data['token'] = 'TOKEN'
+        return data
