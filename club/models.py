@@ -46,6 +46,8 @@ class Club(models.Model):
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to='media/images/club_pic/logo')
+    created_by= models.CharField(max_length=200, default='Coder')
+    created_at = models.DateField(auto_now_add=True)
     user = models.ManyToManyField(User)
     user_staffs = models.ManyToManyField(UserStaffs)
     user_members = models.ManyToManyField(UserMembers)
