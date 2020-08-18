@@ -16,8 +16,8 @@ from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 
 
-
-class GenericAPIView(generics.GenericAPIView, mixins.CreateModelMixin):
+# FOR CREATING MESSAGE TO PRESIDENT
+class ContactAPIView(generics.CreateAPIView, mixins.CreateModelMixin):
     serializer_class = ContactPresidentSerializer
     queryset = ContactPresident.objects.all()
  
@@ -26,35 +26,36 @@ class GenericAPIView(generics.GenericAPIView, mixins.CreateModelMixin):
 
    
 #    FOR VIEWING NEWS IN STUDENT PANAL
-# class NewsAPIView(generics.NewsAPIView, mixins.ListModelMixin):
-#     serializer_class_news = NewsSerializer
-#     queryset = News.objects.all()
+# FROM HERE __________ COMMENT FOR USE
+class NewsAPIView(generics.ListAPIView, mixins.ListModelMixin):
+    serializer_class_news = NewsSerializer
+    queryset = News.objects.all()
 
-#     def get(self,request):
-#         return self.list(request)
+    def get(self,request):
+        return self.list(request)
     
     
 #    FOR VIEWING EVENTS IN STUDENT PANAL
-# class EventAPIView(generics.NewsAPIView, mixins.ListModelMixin):
-#     serializer_class_event = EventSerializer
-#     queryset =Event.objects.all()
+class EventAPIView(generics.ListAPIView, mixins.ListModelMixin):
+    serializer_class_event = EventSerializer
+    queryset =Event.objects.all()
 
-#     def get(self,request):
-#         return self.list(request)
+    def get(self,request):
+        return self.list(request)
 
 
 # FOR LEAVIING THE CLUB
-# class LeaveClubAPIView(generics.LeaveClubAPIView,mixins.DestroyModelMixin):
-#     serializer_class_leave_club = MyClubSerializer
-#     queryset = MyClub.objects.all()
-#     lookup_field = 'id'
+class LeaveClubAPIView(generics.DestroyAPIView,mixins.DestroyModelMixin):
+    serializer_class_leave_club = MyClubSerializer
+    queryset = MyClub.objects.all()
+    lookup_field = 'id'
     
-#     authentication_classes = [TokenAuthentication]
-#     permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    permission_classes = [IsAuthenticated]
 
 
-#     def delete(self,request, id):
-#             return self.destroy(request, id)
+    def delete(self,request, id):
+            return self.destroy(request, id)
 
 
 

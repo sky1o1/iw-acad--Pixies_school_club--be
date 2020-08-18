@@ -56,16 +56,16 @@ class Club(models.Model):
         return self.club_name
 
 
-class ContactPresident(models.Model):
-    club_name = models.CharField(max_length=200)
-    member_name = models.CharField(max_length=200)
+class ContactPresident(models.Model):    
     message_title = models.CharField(max_length=300)
     message = models.TextField(max_length=1000)
-    club = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
-    member = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    # club = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
+    # member = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    club = models.CharField(max_length=300)
+    member = models.CharField(max_length=300)
 
     def __str__(self):
-        return self.club_name
+        return self.member
 
 
 class Event(models.Model):

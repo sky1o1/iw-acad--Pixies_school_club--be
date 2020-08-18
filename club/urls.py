@@ -1,15 +1,17 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
-
+from .members.views import ContactAPIView
 from .views import ClubViewSet, home
 from .accounts.views import AdminRegistrationView, StaffRegistrationView, MemberRegistrationView, StaffLoginView, MemberLoginView, LogoutView
+
+
 r = DefaultRouter()
 # r.register('clubs,', ClubViewSet)
 
 
 urlpatterns = [
-    # path('clubs/', ClubViewSet.as_view,
+    # URL's FOR ACCOUNT
     path('signup/admin/', AdminRegistrationView.as_view()),
     path('signup/staff/', StaffRegistrationView.as_view()),
     path('signup/member/', MemberRegistrationView.as_view()),
@@ -18,4 +20,13 @@ urlpatterns = [
     path('login/member/', MemberLoginView.as_view(), name='login/member'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('home/', home, name='home'),
+    #URL's FOR SUPERADMIN
+
+
+    #URL's FOR MEMBERS
+    path('member/', ContactAPIView.as_view()),
+
+    #URL's FOR PRESIDENT
+
+
 ] + r.urls
