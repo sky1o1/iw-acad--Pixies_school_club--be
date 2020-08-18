@@ -31,11 +31,11 @@ class UserMembers(AbstractUser):
 
 
 class UserDetail(models.Model):
-    dob = models.DateField(default= "2020-01-01" )
+    dob = models.DateField(default="2020-01-01")
     address = models.CharField(max_length=200)
     phone_num = models.IntegerField()
     bio = models.TextField()
-    profile_pic = models.ImageField(upload_to='media/images/profile_pic')
+    profile_pic = models.ImageField(upload_to='images/profile_pic')
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE)
     user_members = models.OneToOneField(UserMembers, on_delete=models.CASCADE)
@@ -45,8 +45,8 @@ class Club(models.Model):
     president_name = models.CharField(max_length=150, default='Megha')
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    logo = models.ImageField(upload_to='media/images/club_pic/logo')
-    created_by= models.CharField(max_length=200, default='Coder')
+    logo = models.ImageField(upload_to='images/club_pic/logo')
+    created_by = models.CharField(max_length=200, default='Coder')
     created_at = models.DateField(auto_now_add=True)
     user = models.ManyToManyField(User)
     user_staffs = models.ManyToManyField(UserStaffs)
@@ -56,18 +56,51 @@ class Club(models.Model):
         return self.club_name
 
 
+class ContactPresident(models.Model):
+    club_name = models.CharField(max_length=200)
+    member_name = models.CharField(max_length=200)
+    message_title = models.CharField(max_length=300)
+    message = models.TextField(max_length=1000)
+    club = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
+    member = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.club_name
+
+
+class Event(models.Model):
+    event_title = models.CharField(max_length=200)
+    event_description = models.TextField(max_length=1000)
+    event_date = models.DateField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    created_by = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
+    club_event = models.ForeignKey(Club, on_delete=models.CASCADE)
+    interested_members = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    all = models.BooleanField(default=False)
+
+
+class News(models.Model):
+    news_title = models.CharField(max_length=200)
+    news_description = models.TextField(max_length=1000)
+    news_date = models.DateField(auto_now=True)
+    created_at = models.DateField(auto_now_add=True)
+    created_by = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
+    club_news = models.ForeignKey(Club, on_delete=models.CASCADE)
+    all = models.BooleanField(default=False)
+
+
+class Application(models.Model):
+    members = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    interested_club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    status = models.BooleanField(default=True)
+
+
+class Gallery(models.Model):
+    images = models.ImageField(upload_to='images/club_pic/gallery')
+    club_img = models.ForeignKey(Club, on_delete=models.CASCADE)
+
+
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
-
-
-class ContactPresident(models.Model):
-    
-    club_name = models.CharField(max_length=200)
-    member_name = models.CharField(max_length=200)
-    message_title = models.CharField(max_length=300)
-    message = models.TextField()
-    
-    def __str__(self):
-        return self.club_name
