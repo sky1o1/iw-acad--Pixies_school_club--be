@@ -48,8 +48,8 @@ class Club(models.Model):
     logo = models.ImageField(upload_to='images/club_pic/logo')
     created_by = models.CharField(max_length=200, default='Coder')
     created_at = models.DateField(auto_now_add=True)
-    user = models.ManyToManyField(User)
-    user_staffs = models.ManyToManyField(UserStaffs)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE)
     user_members = models.ManyToManyField(UserMembers)
 
     def __str__(self):
@@ -75,7 +75,7 @@ class Event(models.Model):
     created_at = models.DateField(auto_now_add=True)
     created_by = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
     club_event = models.ForeignKey(Club, on_delete=models.CASCADE)
-    interested_members = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    interested_members = models.ManyToManyField(UserMembers)
     all = models.BooleanField(default=False)
 
 
@@ -90,14 +90,14 @@ class News(models.Model):
 
 
 class Application(models.Model):
-    members = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    members = models.ManyToManyField(UserMembers)
     interested_club = models.ForeignKey(Club, on_delete=models.CASCADE)
     status = models.BooleanField(default=True)
 
 
 class Gallery(models.Model):
     images = models.ImageField(upload_to='images/club_pic/gallery')
-    club_img = models.ForeignKey(Club, on_delete=models.CASCADE)
+    club_img = models.ManyToManyField(Club)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
