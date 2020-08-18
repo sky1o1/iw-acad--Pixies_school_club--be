@@ -60,3 +60,14 @@ class Club(models.Model):
 def create_auth_token(sender, instance=None, created=False, **kwargs):
     if created:
         Token.objects.create(user=instance)
+
+
+class ContactPresident(models.Model):
+    
+    club_name = models.CharField(max_length=200)
+    member_name = models.CharField(max_length=200)
+    message_title = models.CharField(max_length=300)
+    message = models.TextField()
+    
+    def __str__(self):
+        return self.club_name
