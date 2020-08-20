@@ -14,10 +14,22 @@ class User(AbstractUser):
     groups = None
     user_permissions = None
 
+class Club(models.Model):
+    # president_name = models.CharField(max_length=250)
+    club_name = models.CharField(max_length=200)
+    description = models.CharField(max_length=1000)
+    logo = models.ImageField(upload_to='images/club_pic/logo')
+    # user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE, default= 1)
+    # user_members = models.ManyToManyField(UserMembers)
+
+    def __str__(self):
+        return self.club_name
 
 class UserStaffs(AbstractUser):
     middle_name = models.CharField(max_length=50, blank=True)
     is_staff = models.BooleanField(default=True)
+    club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
+
 
     groups = None
     user_permissions = None
@@ -39,18 +51,6 @@ class UserDetail(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE)
     user_members = models.OneToOneField(UserMembers, on_delete=models.CASCADE)
-
-
-class Club(models.Model):
-    president_name = models.OneToOneField(UserStaffs, on_delete=models.CASCADE)
-    club_name = models.CharField(max_length=200)
-    description = models.CharField(max_length=1000)
-    logo = models.ImageField(upload_to='images/club_pic/logo')
-    # user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE, default= 1)
-    # user_members = models.ManyToManyField(UserMembers)
-
-    def __str__(self):
-        return self.club_name
 
 
 class ContactPresident(models.Model):

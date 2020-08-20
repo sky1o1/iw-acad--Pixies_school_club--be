@@ -1,4 +1,8 @@
-from django.contrib import admin
-from .models import Club
-
-admin.site.register(Club)
+# from django.contrib import admin
+# from .models import Club, UserStaffs
+#
+# admin.site.register(Club)
+# admin.site.register(UserStaffs)
+#
+#
+#
