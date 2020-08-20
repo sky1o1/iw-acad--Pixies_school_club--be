@@ -67,6 +67,8 @@ class StaffRegistrationSerializer(serializers.ModelSerializer):
         user = UserStaffs(
             first_name=self.validated_data['first_name'],
             middle_name=self.validated_data['middle_name'],
+            # club_name =self.validated_data['club_name'],
+
             last_name=self.validated_data['last_name'],
             username=self.validated_data['username'],
             email=self.validated_data['email'],

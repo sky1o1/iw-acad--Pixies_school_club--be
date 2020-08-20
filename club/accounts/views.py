@@ -16,8 +16,9 @@ User = get_user_model()
 
 class   AdminRegistrationView(ListCreateAPIView):
     queryset = User.objects.all()
-
     serializer_class = AdminRegistrationSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
