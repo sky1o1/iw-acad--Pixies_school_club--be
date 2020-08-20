@@ -2,7 +2,6 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
 from club.models import Club, UserStaffs
-
 User = get_user_model()
 
 
@@ -25,7 +24,9 @@ class CreateUserStaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserStaffs
         fields = ['first_name', 'last_name', 'middle_name', 'club_name', 'username', 'email', 'password']
-
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
     def create(self, validated_data):
         userstaffs = UserStaffs(
             first_name=self.validated_data['first_name'],
@@ -33,10 +34,12 @@ class CreateUserStaffSerializer(serializers.ModelSerializer):
             middle_name=self.validated_data['middle_name'],
             username=self.validated_data['username'],
             club_name=self.validated_data['club_name'],
-
             email=self.validated_data['email'],
             password=self.validated_data['password'],
 
         )
+        password = self.validated_data['password']
+        userstaffs.set_password(password)
         userstaffs.save()
         return userstaffs
+

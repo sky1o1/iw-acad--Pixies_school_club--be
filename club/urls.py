@@ -14,7 +14,7 @@ r = DefaultRouter()
 urlpatterns = [
     # path('clubs/', ClubViewSet.as_view,
     path('signup/admin/', AdminRegistrationView.as_view()),
-    path('signup/staff/', StaffRegistrationView.as_view()),
+    # path('signup/staff/', StaffRegistrationView.as_view()),
     path('signup/member/', MemberRegistrationView.as_view()),
     path('login/', obtain_auth_token, name='login'),
     path('login/staff/', StaffLoginView.as_view(), name='login/staff'),
