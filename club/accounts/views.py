@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -14,7 +14,9 @@ from club.models import UserStaffs, UserMembers
 User = get_user_model()
 
 
-class   AdminRegistrationView(CreateAPIView):
+class   AdminRegistrationView(ListCreateAPIView):
+    queryset = User.objects.all()
+
     serializer_class = AdminRegistrationSerializer
 
     def post(self, request, *args, **kwargs):
@@ -29,7 +31,8 @@ class   AdminRegistrationView(CreateAPIView):
         return Response(data,   status=status.HTTP_201_CREATED)
 
 
-class StaffRegistrationView(CreateAPIView):
+class StaffRegistrationView(ListCreateAPIView):
+    queryset = UserStaffs.objects.all()
     serializer_class = StaffRegistrationSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
@@ -47,7 +50,9 @@ class StaffRegistrationView(CreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-class MemberRegistrationView(CreateAPIView):
+class MemberRegistrationView(ListCreateAPIView):
+    queryset = UserMembers.objects.all()
+
     serializer_class = MemberRegistrationSerializer
     permission_classes = [AllowAny, ]
 
