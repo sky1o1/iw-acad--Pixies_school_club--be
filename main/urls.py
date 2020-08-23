@@ -26,7 +26,7 @@ r = DefaultRouter()
 
 
 urlpatterns = [
-    path('signup/', obtain_auth_token),
+    # path('signup/', obtain_auth_token),
     path('signup/admin/', AdminRegistrationView.as_view(), name='admin-signup'),
     path('signup/admin/add-member/', AdminUserMemberView.as_view(), name='member-signup'),
     path('signup/admin/add-user', AdminUserView.as_view(), name='add-user'),
