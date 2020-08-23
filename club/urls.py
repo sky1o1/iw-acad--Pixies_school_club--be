@@ -21,8 +21,8 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='logout'),
     path('home/', home, name='home'),
     # path('post/', EventPostView.as_view()),
-    path('event/', EventSerializerView.as_view()),
-    path('article/', ArticleSerializerView.as_view()),
+    path('login/staff/event/', EventSerializerView.as_view()),
+    path('login/staff/article/', ArticleSerializerView.as_view()),
 
                   # path('admin/', AdminClubViewSet.as_)
 ] + r.urls

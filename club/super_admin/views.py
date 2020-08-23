@@ -68,8 +68,8 @@ def post(self, request, *args, **kwargs):
     serializer.is_valid(raise_exception=True)
     usermember = serializer.save()
     data['response'] = 'Succesfully created Club'
-    # token = Token.objects.get(user=club).key
-    # data['token'] = token
+    token = Token.objects.get(user=usermember).key
+    data['token'] = token
     return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -85,8 +85,9 @@ def post(self, request, *args, **kwargs):
     serializer = self.serializer_class(data=request.data)
     data = {}
     serializer.is_valid(raise_exception=True)
-    club = serializer.save()
-    data['response'] = 'Succesfully created Club'
-    token = Token.objects.get(user=club).key
-    data['token'] = token
+    User = serializer.save()
+    data['response'] = 'Succesfully created user'
+    # token = Token.objects.get(user=club).key
+    # data['token'] = token
+
     return Response(data, status=status.HTTP_201_CREATED)

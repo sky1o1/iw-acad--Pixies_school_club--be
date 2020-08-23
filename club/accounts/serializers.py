@@ -1,6 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.db.models import Q
+from rest_framework.authtoken.models import Token
+
+
 
 from club.models import UserStaffs, UserMembers, MemberApplicationRecord, UserAdmin
 
@@ -100,13 +103,13 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
 
 
 class StaffLoginSerializer(serializers.ModelSerializer):
-    token = serializers.CharField(allow_blank=True, read_only=True)
+    # token = serializers.CharField(allow_blank=True, read_only=True)
     username = serializers.CharField(required=False, allow_blank=True)
     email = serializers.EmailField(required=False, allow_blank=True)
 
     class Meta:
-        model = UserStaffs
-        fields = ['username', 'password', 'email', 'token']
+        model = User
+        fields = ['username', 'password', 'email']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -118,7 +121,7 @@ class StaffLoginSerializer(serializers.ModelSerializer):
         password = data['password']
         if not email and not username:
             raise serializers.ValidationError({'error': 'Email or Username required'})
-        user = UserStaffs.objects.filter(
+        user = User.objects.filter(
                 Q(username=username) |
                 Q(email=email)
         ).distinct()
@@ -129,18 +132,18 @@ class StaffLoginSerializer(serializers.ModelSerializer):
         if user_obj:
             if not user_obj.check_password(password):
                 raise serializers.ValidationError({'error': 'Incorrect password'})
-        data['token'] = 'TOKEN'
+        # data['token'] = Token
         return data
 
 
 class MemberLoginSerializer(serializers.ModelSerializer):
-    token = serializers.CharField(allow_blank=True, read_only=True)
+    # token = serializers.CharField(allow_blank=True, read_only=True)
     username = serializers.CharField(required=False, allow_blank=True)
     email = serializers.EmailField(required=False, allow_blank=True)
 
     class Meta:
-        model = UserMembers
-        fields = ['username', 'password', 'email', 'token']
+        model = User
+        fields = ['username', 'password', 'email']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -151,7 +154,7 @@ class MemberLoginSerializer(serializers.ModelSerializer):
         password = data['password']
         if not email and not username:
             raise serializers.ValidationError({'error': 'Email or Username required'})
-        user = UserStaffs.objects.filter(
+        user = User.objects.filter(
             Q(email=email) |
             Q(username=username)
         ).distinct()
@@ -162,5 +165,5 @@ class MemberLoginSerializer(serializers.ModelSerializer):
         if user_obj:
             if not user_obj.check_password(password):
                 raise serializers.ValidationError({'error': 'Incorrect password'})
-        data['token'] = 'TOKEN'
+        # data['token'] = 'TOKEN'
         return data
