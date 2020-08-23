@@ -5,29 +5,35 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
-
-class User(AbstractUser):
-    middle_name = models.CharField(max_length=50, blank=True)
-    is_superuser = models.BooleanField(default=True)
-    is_staff = models.BooleanField(default=True)
-
-    groups = None
-    user_permissions = None
-
 class Club(models.Model):
     # president_name = models.CharField(max_length=250)
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to='images/club_pic/logo')
-    # user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE, default= 1)
-    # user_members = models.ManyToManyField(UserMembers)
+
 
     def __str__(self):
         return self.club_name
 
-class UserStaffs(AbstractUser):
+
+class User(AbstractUser):
     middle_name = models.CharField(max_length=50, blank=True)
-    is_staff = models.BooleanField(default=True)
+    is_superuser = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=False)
+    is_member = models.BooleanField('member status',default=False)
+
+    groups = None
+    user_permissions = None
+
+
+class UserAdmin(models.Model):
+        user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+        groups = None
+        user_permissions = None
+
+
+class UserStaffs(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
 
 
@@ -35,23 +41,36 @@ class UserStaffs(AbstractUser):
     user_permissions = None
 
 
-class UserMembers(AbstractUser):
-    middle_name = models.CharField(max_length=50, blank=True)
-
+class UserMembers(models.Model):
+    user = models.OneToOneField(User, on_delete= models.CASCADE, primary_key=True)
+    # club_name = models.ManyToManyField(Club)
+    club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
     groups = None
     user_permissions = None
 
+class MemberApplicationRecord(models.Model):
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    middle_name = models.CharField(max_length=200, null=True, blank=True)
+    club_name = models.CharField(max_length=200)
+    email = models.EmailField()
 
-class UserDetail(models.Model):
+
+class UserStaffDetail(models.Model):
     dob = models.DateField(default="2020-01-01")
     address = models.CharField(max_length=200)
     phone_num = models.IntegerField()
     bio = models.TextField()
     profile_pic = models.ImageField(upload_to='images/profile_pic')
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    user_staffs = models.OneToOneField(UserStaffs, on_delete=models.CASCADE)
-    user_members = models.OneToOneField(UserMembers, on_delete=models.CASCADE)
+    user_staff = models.OneToOneField(User, on_delete=models.CASCADE)
 
+class UserMemberDetail(models.Model):
+    dob = models.DateField(default="2020-01-01")
+    address = models.CharField(max_length=200)
+    phone_num = models.IntegerField()
+    bio = models.TextField()
+    profile_pic = models.ImageField(upload_to='images/profile_pic')
+    user_member = models.OneToOneField(User, on_delete=models.CASCADE)
 
 class ContactPresident(models.Model):
     club_name = models.CharField(max_length=200)

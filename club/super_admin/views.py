@@ -13,8 +13,8 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
 
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer
-from club.models import Club, UserStaffs
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, CreateUserSerializer, CreateUserMemberSerializer
+from club.models import Club, UserStaffs, UserMembers
 from club.permissions import IsSuperUser
 
 User = get_user_model()
@@ -33,8 +33,6 @@ class AdminClubView(ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         club = serializer.save()
         data['response'] = 'Succesfully created Club'
-        token = Token.objects.get(user=club).key
-        data['token'] = token
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -52,7 +50,43 @@ def post(self, request, *args, **kwargs):
     serializer.is_valid(raise_exception=True)
     club = serializer.save()
     data['response'] = 'Succesfully created Club'
+    # token = Token.objects.get(user=club).key
+    # data['token'] = token
+    return Response(data, status=status.HTTP_201_CREATED)
+
+class AdminUserMemberView(ListCreateAPIView):
+    queryset = UserMembers.objects.all()
+
+    serializer_class = CreateUserMemberSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
+
+
+def post(self, request, *args, **kwargs):
+    serializer = self.serializer_class(data=request.data)
+    data = {}
+    serializer.is_valid(raise_exception=True)
+    usermember = serializer.save()
+    data['response'] = 'Succesfully created Club'
+    # token = Token.objects.get(user=club).key
+    # data['token'] = token
+    return Response(data, status=status.HTTP_201_CREATED)
+
+
+class AdminUserView(ListCreateAPIView):
+    queryset = User.objects.all()
+
+    serializer_class = CreateUserSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
+
+
+def post(self, request, *args, **kwargs):
+    serializer = self.serializer_class(data=request.data)
+    data = {}
+    serializer.is_valid(raise_exception=True)
+    club = serializer.save()
+    data['response'] = 'Succesfully created Club'
     token = Token.objects.get(user=club).key
     data['token'] = token
     return Response(data, status=status.HTTP_201_CREATED)
-
