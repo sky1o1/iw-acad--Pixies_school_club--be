@@ -1,14 +1,16 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authentication import TokenAuthentication
+from rest_framework.response import Response
+from django.shortcuts import get_object_or_404
 
-from .serializers import AdminRegistrationSerializer, MemberApplicationRecordSerializer, StaffLoginSerializer, MemberLoginSerializer
+from .serializers import AdminRegistrationSerializer, ProfileSerializer, MemberApplicationRecordSerializer, StaffLoginSerializer, MemberLoginSerializer
 from club.models import UserStaffs, UserMembers, UserAdmin
 
 User = get_user_model()
@@ -105,3 +107,14 @@ class LogoutView(APIView):
     def get(self, request):
         self.request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
+class ProfileAPI(RetrieveAPIView):
+
+    serializer_class = ProfileSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated, ]
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk= kwargs['id'])
+        profile_serializer = ProfileSerializer(user)
+        return Response(profile_serializer.data)
