@@ -7,7 +7,7 @@ from .event.views import  EventSerializerView
 from .article.views import ArticleSerializerView
 from club.super_admin.views import AdminClubView, AdminUserStaffView, AdminUserView, AddUserMemberView, ClubView, UserStaffView, UserView
 
-from .accounts.views import AdminRegistrationView, MemberApplicationRecordSerializerView, StaffLoginView, MemberLoginView, LogoutView
+from .accounts.views import AdminRegistrationView, MemberApplicationRecordSerializerView, ProfileAPI, StaffLoginView, MemberLoginView, LogoutView
 r = DefaultRouter()
 # r.register('clubs,', ClubViewSet)
 
@@ -16,6 +16,8 @@ urlpatterns = [
     # path('clubs/', ClubViewSet.as_view,
     # path('signup/staff/', StaffRegistrationView.as_view()),
     path('home/', home, name='home'),
+    path('view-club/', ClubView.as_view(), name='club'),
+    path('view-staff/', UserStaffView.as_view(), name='staff'),
     path('login/', obtain_auth_token, name='login'),
     path('signup/admin/', AdminRegistrationView.as_view(), name='admin-signup'),
     path('login/admin/add-user/', AdminUserView.as_view(), name='add-user'),
@@ -31,7 +33,6 @@ urlpatterns = [
     # path('post/', EventPostView.as_view()),
     path('login/event/', EventSerializerView.as_view()),
     path('login/article/', ArticleSerializerView.as_view()),
-    path('view-club/', ClubView.as_view(), name='club'),
-    path('view-staff/', UserStaffView.as_view(), name='staff'),
+    path('login/<id>/profile/', ProfileAPI.as_view())
 
-] + r.urls
+              ] + r.urls

@@ -167,3 +167,8 @@ class MemberLoginSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({'error': 'Incorrect password'})
         # data['token'] = 'TOKEN'
         return data
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'middle_name', 'last_name','date_joined', 'email']
