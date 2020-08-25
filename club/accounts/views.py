@@ -73,7 +73,7 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-class StaffLoginView(APIView):
+class StaffLoginView(ListCreateAPIView):
     serializer_class = StaffLoginSerializer
     queryset = User.objects.all()
     authentication_classes = [TokenAuthentication, ]
@@ -84,8 +84,7 @@ class StaffLoginView(APIView):
             serializer = self.serializer_class(data=data)
             # data={}
             serializer.is_valid(raise_exception=True)
-            # print(Token.key)
-            # data['token'] = Token.key(id = 1)
+            # data['token'] = Token.key
             return Response(data, status=status.HTTP_200_OK)
 
 

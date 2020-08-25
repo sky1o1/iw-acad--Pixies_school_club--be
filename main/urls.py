@@ -20,18 +20,13 @@ from rest_framework.authtoken.views import obtain_auth_token
 
 
 
-from club.super_admin.views import AdminClubView, AdminUserStaffView, AdminUserView, AdminUserMemberView
 from club.accounts.views import AdminRegistrationView
 r = DefaultRouter()
 
 
 urlpatterns = [
     # path('signup/', obtain_auth_token),
-    path('signup/admin/', AdminRegistrationView.as_view(), name='admin-signup'),
-    path('signup/admin/add-member/', AdminUserMemberView.as_view(), name='member-signup'),
-    path('signup/admin/add-user', AdminUserView.as_view(), name='add-user'),
-    path('signup/admin/add-club/', AdminClubView.as_view(), name='add-club'),
-    path('signup/admin/add-president/', AdminUserStaffView.as_view(), name='admin/add-president'),
+
     # path('signup/', include('django.contrib.auth.urls')),
     path('', include('club.urls')),
 ] + r.urls
