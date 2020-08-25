@@ -4,7 +4,7 @@ from django.http import HttpResponse
 from rest_framework.permissions import AllowAny
 
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import TokenAuthentication
@@ -15,17 +15,17 @@ from rest_framework.authtoken.models import Token
 
 from .serializers import CreateClubSerializer, CreateUserStaffSerializer, CreateUserSerializer, CreateUserMemberSerializer
 from club.models import Club, UserStaffs, UserMembers
-from club.permissions import IsSuperUser
+from club.permissions import IsStaffUser, IsSuperUser
 
 User = get_user_model()
 
-
+#admin can create and view club
 class AdminClubView(ListCreateAPIView):
     queryset = Club.objects.all()
 
     serializer_class = CreateClubSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsSuperUser, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -35,59 +35,83 @@ class AdminClubView(ListCreateAPIView):
         data['response'] = 'Succesfully created Club'
         return Response(data, status=status.HTTP_201_CREATED)
 
+#others can view the clubs created by admin
+class ClubView(ListAPIView):
+    queryset = Club.objects.all()
 
+    serializer_class = CreateClubSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
+
+
+#admin creates and view staffs(presidents) of each club
 class AdminUserStaffView(ListCreateAPIView):
+    queryset = UserStaffs.objects.all()
+
+    serializer_class = CreateUserStaffSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsSuperUser, ]
+
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        data = {}
+        serializer.is_valid(raise_exception=True)
+        club = serializer.save()
+        data['response'] = 'Succesfully appointed as president'
+
+        return Response(data, status=status.HTTP_201_CREATED)
+
+#others can view the president
+class UserStaffView(ListAPIView):
     queryset = UserStaffs.objects.all()
 
     serializer_class = CreateUserStaffSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
-
-def post(self, request, *args, **kwargs):
-    serializer = self.serializer_class(data=request.data)
-    data = {}
-    serializer.is_valid(raise_exception=True)
-    club = serializer.save()
-    data['response'] = 'Succesfully created Club'
-    # token = Token.objects.get(user=club).key
-    # data['token'] = token
-    return Response(data, status=status.HTTP_201_CREATED)
-
-class AdminUserMemberView(ListCreateAPIView):
+#selected president can add member to the club
+class AddUserMemberView(ListCreateAPIView):
     queryset = UserMembers.objects.all()
 
     serializer_class = CreateUserMemberSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsStaffUser, ]
 
 
-def post(self, request, *args, **kwargs):
-    serializer = self.serializer_class(data=request.data)
-    data = {}
-    serializer.is_valid(raise_exception=True)
-    usermember = serializer.save()
-    data['response'] = 'Succesfully created Club'
-    token = Token.objects.get(user=usermember).key
-    data['token'] = token
-    return Response(data, status=status.HTTP_201_CREATED)
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        data = {}
+        serializer.is_valid(raise_exception=True)
+        usermember = serializer.save()
+        data['response'] = 'Succesfully created Club'
+        token = Token.objects.get(user=usermember).key
+        data['token'] = token
+        return Response(data, status=status.HTTP_201_CREATED)
 
-
+#admin can add users
 class AdminUserView(ListCreateAPIView):
     queryset = User.objects.all()
-
     serializer_class = CreateUserSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsSuperUser, ]
 
 
-def post(self, request, *args, **kwargs):
-    serializer = self.serializer_class(data=request.data)
-    data = {}
-    serializer.is_valid(raise_exception=True)
-    User = serializer.save()
-    data['response'] = 'Succesfully created user'
-    # token = Token.objects.get(user=club).key
-    # data['token'] = token
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        data = {}
+        serializer.is_valid(raise_exception=True)
+        User = serializer.save()
+        data['response'] = 'Succesfully created user'
+        # token = Token.objects.get(user=club).key
+        # data['token'] = token
 
-    return Response(data, status=status.HTTP_201_CREATED)
+        return Response(data, status=status.HTTP_201_CREATED)
+
+#authenticated user can view the list of entire user
+class UserView(ListAPIView):
+    queryset = User.objects.all()
+    serializer_class = CreateUserSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsAuthenticated, ]
+
