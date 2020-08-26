@@ -70,8 +70,6 @@ class AdminRegistrationSerializer(serializers.ModelSerializer):
 
 
 class MemberApplicationRecordSerializer(serializers.ModelSerializer):
-    # confirm_password = serializers.CharField(max_length=128, write_only=True)
-
     class Meta:
         model = MemberApplicationRecord
         fields = ['first_name', 'middle_name', 'last_name', 'email','club_name']
@@ -80,13 +78,7 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
         email = MemberApplicationRecord.objects.filter(email=attrs['email'])
         if email.exists():
             raise serializers.ValidationError('Email already in use')
-
-        # password = attrs['password']
-        # confirm_password = attrs['confirm_password']
-        # if password != confirm_password:
-        #     raise serializers.ValidationError({'Password do not match'})
-        # return attrs
-
+        return attrs
     def create(self, validated_data):
         user = MemberApplicationRecord(
             first_name=self.validated_data['first_name'],
