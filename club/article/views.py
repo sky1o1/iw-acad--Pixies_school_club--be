@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -12,7 +12,7 @@ from .serializers import ArticleSerializer
 from club.models import Article
 
 User = get_user_model()
-class ArticleSerializerView(ListCreateAPIView):
+class ArticleSerializerView(CreateAPIView):
     queryset = Article.objects.all()
 
     serializer_class = ArticleSerializer
