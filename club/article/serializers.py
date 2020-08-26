@@ -13,7 +13,6 @@ class ArticleSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user = Article(
-            # president_name=self.validated_data['president_name'],
             article_title=self.validated_data['article_title'],
             article_description=self.validated_data['article_description'],
             created_by_staff=self.validated_data['created_by_staff'],

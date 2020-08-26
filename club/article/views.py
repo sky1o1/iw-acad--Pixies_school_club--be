@@ -1,11 +1,12 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from rest_framework.views import APIView
+from django.shortcuts import get_object_or_404
+
 
 from .serializers import ArticleSerializer
 from club.models import Article
@@ -29,10 +30,19 @@ class ArticleSerializerView(ListCreateAPIView):
         data['created_by_staff'] = article.created_by_staff
         data['created_by_member'] = article.created_by_member
         data['all'] = article.all
-
-        # token = Token.objects.get(user=event).key
-        # data['token'] = token
         return Response(data, status=status.HTTP_201_CREATED)
+
+class ArticleView(RetrieveAPIView):
+
+    # serializer_class = ArticleSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
+
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(User, pk= kwargs['id'])
+        article_serializer = ArticleSerializer(user)
+        return Response(article_serializer.data)
 
 
 

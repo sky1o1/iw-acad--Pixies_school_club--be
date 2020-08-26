@@ -3,8 +3,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
 from .views import ClubViewSet, home
-from .event.views import  EventSerializerView
-from .article.views import ArticleSerializerView
+from .event.views import  EventSerializerView, EventView
+from .article.views import ArticleSerializerView, ArticleView
 from club.super_admin.views import AdminClubView, AdminUserStaffView, AdminUserView, AddUserMemberView, ClubView, UserStaffView, UserView
 
 from .accounts.views import AdminRegistrationView, MemberApplicationRecordSerializerView, ProfileAPI, LogoutView, MemberApplicationViewSerializerView
@@ -25,8 +25,10 @@ urlpatterns = [
     path('login/admin/add-member/', AddUserMemberView.as_view(), name='member-signup'),
     path('login/user-view/', UserView.as_view(), name='login/user-view'),
     path('logout/', LogoutView.as_view(), name='logout'),
-    path('login/event/', EventSerializerView.as_view()),
-    path('login/article/', ArticleSerializerView.as_view()),
+    path('/<id>/article/', ArticleView.as_view(), name= 'article'),
+    path('/<id>/event/', EventView.as_view(), name='event'),
+    path('login/post-event/', EventSerializerView.as_view()),
+    path('login/post-article/', ArticleSerializerView.as_view()),
     path('login/<id>/profile/', ProfileAPI.as_view())
 
               ] + r.urls
