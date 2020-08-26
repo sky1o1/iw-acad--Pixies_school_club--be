@@ -9,9 +9,11 @@ from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
+from club.permissions import IsStaffUser, IsSuperUser
+
 
 from .serializers import AdminRegistrationSerializer, ProfileSerializer, MemberApplicationRecordSerializer, StaffLoginSerializer, MemberLoginSerializer
-from club.models import UserStaffs, UserMembers, UserAdmin
+from club.models import  UserMembers, UserAdmin, MemberApplicationRecord
 
 User = get_user_model()
 
@@ -34,27 +36,10 @@ class AdminRegistrationView(ListCreateAPIView):
         return Response(data,   status=status.HTTP_201_CREATED)
 
 
-# class StaffRegistrationView(ListCreateAPIView):
-#     queryset = UserStaffs.objects.all()
-#     serializer_class = StaffRegistrationSerializer
-#     authentication_classes = [TokenAuthentication, ]
-#     permission_classes = [AllowAny, ]
-#
-#     def post(self, request, *args, **kwargs):
-#         serializer = self.serializer_class(data=request.data)
-#         data = {}
-#         serializer.is_valid(raise_exception=True)
-#         account = serializer.save()
-#         data['response'] = 'Successfully created a new user'
-#         data['email'] = account.email
-#         data['username'] = account.username
-#         token = Token.objects.get(user=account).key
-#         data['token'] = token
-#         return Response(data, status=status.HTTP_201_CREATED)
-#
+
 
 class MemberApplicationRecordSerializerView(ListCreateAPIView):
-    queryset = UserMembers.objects.all()
+    queryset = MemberApplicationRecord.objects.all()
 
     serializer_class = MemberApplicationRecordSerializer
     permission_classes = [AllowAny, ]
@@ -70,37 +55,14 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
         data['middle_name'] = account.middle_name
         data['club_name'] = account.club_name
         data['email'] = account.email
-        token = Token.objects.get(user=account).key
-        data['token'] = token
         return Response(data, status=status.HTTP_201_CREATED)
 
-
-class StaffLoginView(ListCreateAPIView):
-    serializer_class = StaffLoginSerializer
-    queryset = User.objects.all()
+class MemberApplicationViewSerializerView(ListCreateAPIView):
+    serializer_class = MemberApplicationRecordSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny, ]
-
-    def post(self, request, *args, **kwargs):
-            data = request.data
-            serializer = self.serializer_class(data=data)
-            # data={}
-            serializer.is_valid(raise_exception=True)
-            # data['token'] = Token.key
-            return Response(data, status=status.HTTP_200_OK)
-
-
-class MemberLoginView(APIView):
-    serializer_class = MemberLoginSerializer
-    queryset = User.objects.all()
-    permission_classes = [AllowAny, ]
-
-    def post(self, request, *args, **kwargs):
-        data = request.data
-        serializer = self.serializer_class(data=data)
-        serializer.is_valid(raise_exception=True)
-        return Response(data, status=status.HTTP_200_OK)
-
+    permission_classes = [IsStaffUser,IsStaffUser, ]
+    def get_queryset(self):
+        return MemberApplicationRecord.objects.all()
 
 class LogoutView(APIView):
 
