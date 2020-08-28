@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
 class Club(models.Model):
-    # president_name = models.CharField(max_length=250)
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to='images/club_pic/logo')
@@ -20,7 +19,7 @@ class User(AbstractUser):
     middle_name = models.CharField(max_length=50, blank=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_member = models.BooleanField('member status',default=False)
+    is_member = models.BooleanField('member status',default=True)
 
     groups = None
     user_permissions = None
