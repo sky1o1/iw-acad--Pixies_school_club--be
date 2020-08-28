@@ -116,7 +116,7 @@ class UpdateUserView(ModelViewSet):
 class AdminFlagsetview(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AdminFlagset
-    permission_classes = [AllowAny, ]
+    permission_classes = [IsSuperUser,]
 
 
      #authenticated user can view the list of entire user
