@@ -29,6 +29,45 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+#for user -can update and delete their profile data except username which will remain constant
+class UpdateUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'middle_name', 'email', 'password']
+        extra_kwargs = {
+            'password': {'write_only': True}
+        }
+
+    def create(self, validated_data):
+        user = User(
+            first_name=self.validated_data['first_name'],
+            last_name=self.validated_data['last_name'],
+            middle_name=self.validated_data['middle_name'],
+            email=self.validated_data['email'],
+            password=self.validated_data['password'],
+
+        )
+        password = self.validated_data['password']
+        user.set_password(password)
+        user.save()
+        return user
+
+class AdminFlagset(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['is_staff', 'is_member', 'username']
+
+    def create(self, validated_data):
+        user = User(
+            is_staff=self.validated_data['is_staff'],
+            is_member=self.validated_data['is_member'],
+            username=self.validated_data['username'],
+
+        )
+        user.save()
+        return user
+
+
 
 class CreateClubSerializer(serializers.ModelSerializer):
     class Meta:
