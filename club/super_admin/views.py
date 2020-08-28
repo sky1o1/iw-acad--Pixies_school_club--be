@@ -9,8 +9,8 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,  CreateUserSerializer, CreateUserMemberSerializer
-from club.models import Club, UserStaffs, UserMembers
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer
+from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
@@ -131,3 +131,27 @@ class UserView(ListAPIView):
 
     def get_queryset(self):
         return User.objects.all()
+class CreateGalleryView(ListCreateAPIView):
+    queryset = Gallery.objects.all()
+
+    serializer_class = GallerySerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [IsStaffUser, ]
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data)
+        data = {}
+        serializer.is_valid(raise_exception=True)
+        gallery = serializer.save()
+        data['image1']=gallery.image1
+        data['image2']=gallery.image2
+        data['image3']=gallery.image3
+        data['response'] = 'Succesfully uploaded pictures to Gallery'
+        return Response(data, status=status.HTTP_201_CREATED)
+
+class GalleryView(ListAPIView):
+    queryset = Gallery.objects.all()
+
+    serializer_class = GallerySerializer
+    # authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
