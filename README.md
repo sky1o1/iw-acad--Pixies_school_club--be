@@ -66,6 +66,31 @@ INSTALLED_APPS = [
     'rest_framework',
 ]
 ```
+Installing Pillow
+`$ pip install Pillow`
+
+Installing Cors headers
+`pip install django-cors-headers `
+
+Add corsheaders to installed applications in settings.py
+
+```
+INSTALLED_APPS = [
+    ...
+    'corsheaders',
+]
+```
+Add corsheaders.middleware.CorsMiddleware to middleware section in settings.py
+```
+  'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    ...
+
+]
+```
+
 
 Make Migrations and Migrate the Models
 `python manage.py makemigrations`
