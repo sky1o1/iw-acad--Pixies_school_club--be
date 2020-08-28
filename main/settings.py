@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'club',
     'rest_framework',
     'rest_framework.authtoken',
+     'corsheaders',
 ]
 
 REST_FRAMEWORK = {
@@ -54,6 +55,7 @@ REST_FRAMEWORK = {
 }
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,3 +140,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 AUTH_USER_MODEL = 'club.User'
+
+CORS_ORIGIN_ALLOW_ALL = True
