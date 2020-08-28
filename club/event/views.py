@@ -28,8 +28,7 @@ class EventSerializerView(CreateAPIView):
         data['event_description'] = event.event_description
         data['event_date'] = event.event_date
         data['all'] = event.all
-        # token = Token.objects.get(user=event).key
-        # data['token'] = token
+
         return Response(data, status=status.HTTP_201_CREATED)
 
 

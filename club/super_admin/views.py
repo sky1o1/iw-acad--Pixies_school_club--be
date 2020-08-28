@@ -88,11 +88,11 @@ class AddUserMemberView(ListCreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 #admin can add users
-class AdminUserView(ListCreateAPIView):
+class SignupUserView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
-    authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsSuperUser, ]
+    # authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
 
 
     def post(self, request, *args, **kwargs):
