@@ -2,18 +2,20 @@ from django.contrib.auth import authenticate, login, get_user_model, logout
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from rest_framework.permissions import AllowAny
-
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView,UpdateAPIView, DestroyAPIView
+from django.views.generic.edit import UpdateView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer, CreateUserSerializer, CreateUserMemberSerializer
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,  CreateUserSerializer, CreateUserMemberSerializer
 from club.models import Club, UserStaffs, UserMembers
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.viewsets import ModelViewSet
+
 User = get_user_model()
 
 #admin can create and view club
@@ -103,7 +105,21 @@ class SignupUserView(ListCreateAPIView):
         data['response'] = 'Succesfully created user'
         return Response(data, status=status.HTTP_201_CREATED)
 
-#authenticated user can view the list of entire user
+
+#for delete and update
+class UpdateUserView(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UpdateUserSerializer
+    permission_classes = [IsAuthenticated, ]
+
+#for admin(can set flag for users)
+class AdminFlagsetview(ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = AdminFlagset
+    permission_classes = [AllowAny, ]
+
+
+     #authenticated user can view the list of entire user
 class UserView(ListAPIView):
     serializer_class = CreateUserSerializer
     authentication_classes = [TokenAuthentication, ]
