@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
 
-from club.models import Club, UserStaffs, UserMembers
+from club.models import Club, UserStaffs, UserMembers, Gallery
 User = get_user_model()
 
 class CreateUserSerializer(serializers.ModelSerializer):
@@ -129,3 +129,17 @@ class CreateUserMemberSerializer(serializers.ModelSerializer):
         return usermember
 
 
+class GallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gallery
+        fields = ['image1','image2', 'image3']
+
+    def create(self, validated_data):
+        gallery = Gallery(
+            image1=self.validated_data['image1'],
+            image2=self.validated_data['image2'],
+            image3=self.validated_data['image3'],
+
+        )
+        gallery.save()
+        return gallery
