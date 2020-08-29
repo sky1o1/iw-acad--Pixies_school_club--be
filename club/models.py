@@ -20,9 +20,12 @@ class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_member = models.BooleanField('member status',default=True)
-
+    profile_pic = models.ImageField(upload_to='images/profile_pic', null=True, blank=True)
     groups = None
     user_permissions = None
+    def __str__(self):
+        return self.username
+
 
 
 class UserAdmin(models.Model):
@@ -34,53 +37,41 @@ class UserAdmin(models.Model):
 class UserStaffs(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
-
-
     groups = None
     user_permissions = None
+    def __str__(self):
+        return self.user.username
+
+
 
 
 class UserMembers(models.Model):
     user = models.OneToOneField(User, on_delete= models.CASCADE, primary_key=True)
-    # club_name = models.ManyToManyField(Club)
-    club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
+    club_name = models.ForeignKey(Club, on_delete=models.CASCADE)
     groups = None
     user_permissions = None
+    def __str__(self):
+        return self.user.username
+
+
 
 class MemberApplicationRecord(models.Model):
     first_name = models.CharField(max_length=200)
     last_name = models.CharField(max_length=200)
     middle_name = models.CharField(max_length=200, null=True, blank=True)
     club_name = models.CharField(max_length=200)
+    resume = models.ImageField(upload_to='images/resume',  null=True, blank=True)
     email = models.EmailField()
 
 
-class UserStaffDetail(models.Model):
-    dob = models.DateField(default="2020-01-01")
-    address = models.CharField(max_length=200)
-    phone_num = models.IntegerField()
-    bio = models.TextField()
-    profile_pic = models.ImageField(upload_to='images/profile_pic')
-    user_staff = models.OneToOneField(User, on_delete=models.CASCADE)
-
-class UserMemberDetail(models.Model):
-    dob = models.DateField(default="2020-01-01")
-    address = models.CharField(max_length=200)
-    phone_num = models.IntegerField()
-    bio = models.TextField()
-    profile_pic = models.ImageField(upload_to='images/profile_pic')
-    user_member = models.OneToOneField(User, on_delete=models.CASCADE)
-
 class ContactPresident(models.Model):
-    club_name = models.CharField(max_length=200)
-    member_name = models.CharField(max_length=200)
     message_title = models.CharField(max_length=300)
     message = models.TextField(max_length=1000)
-    club = models.ForeignKey(UserStaffs, on_delete=models.CASCADE)
-    member = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    club = models.ForeignKey(Club, on_delete=models.CASCADE)
+    username = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
 
     def __str__(self):
-        return self.club_name
+        return self.message_title
 
 
 class Event(models.Model):
@@ -105,11 +96,6 @@ class Article(models.Model):
     # club_news = models.ForeignKey(Club, on_delete=models.CASCADE)
     all = models.BooleanField(default=False)
 
-
-class Application(models.Model):
-    members = models.ManyToManyField(UserMembers)
-    interested_club = models.ForeignKey(Club, on_delete=models.CASCADE)
-    status = models.BooleanField(default=True)
 
 
 class Gallery(models.Model):

@@ -7,7 +7,7 @@ User = get_user_model()
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'middle_name', 'username', 'email', 'password']
+        fields = ['first_name', 'last_name', 'middle_name', 'username', 'email','profile_pic', 'password']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -18,8 +18,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
             last_name=self.validated_data['last_name'],
             middle_name=self.validated_data['middle_name'],
             username=self.validated_data['username'],
-            # is_staff=self.validated_data['is_staff'],
-            # is_member=self.validated_data['is_member'],
+            profile_pic=self.validated_data['profile_pic'],
             email=self.validated_data['email'],
             password=self.validated_data['password'],
 
@@ -33,7 +32,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'middle_name', 'email', 'password']
+        fields = ['first_name', 'last_name', 'middle_name', 'email','profile_pic', 'password']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -43,6 +42,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             first_name=self.validated_data['first_name'],
             last_name=self.validated_data['last_name'],
             middle_name=self.validated_data['middle_name'],
+            profile_pic=self.validated_data['profile_pic'],
             email=self.validated_data['email'],
             password=self.validated_data['password'],
 

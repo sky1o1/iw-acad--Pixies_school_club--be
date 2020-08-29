@@ -1,10 +1,8 @@
 from django.contrib.auth import authenticate, login, get_user_model, logout
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
+
 from rest_framework.permissions import AllowAny
 from rest_framework import status
 from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView,UpdateAPIView, DestroyAPIView
-from django.views.generic.edit import UpdateView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -85,8 +83,6 @@ class AddUserMemberView(ListCreateAPIView):
         serializer.is_valid(raise_exception=True)
         usermember = serializer.save()
         data['response'] = 'Succesfully created Club'
-        token = Token.objects.get(user=usermember).key
-        data['token'] = token
         return Response(data, status=status.HTTP_201_CREATED)
 
 #admin can add users
