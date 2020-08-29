@@ -6,7 +6,6 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIVi
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
 from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
