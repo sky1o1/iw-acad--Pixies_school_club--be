@@ -2,7 +2,7 @@ from django.urls import path
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 
-from .views import ClubViewSet, home
+from .views import home
 from .event.views import  EventSerializerView, EventView
 from .article.views import ArticleSerializerView, ArticleView
 from club.super_admin.views import AdminClubView, UpdateUserView, AdminUserStaffView, AdminFlagsetview,  SignupUserView, AddUserMemberView, ClubView, UserStaffView, UserView, CreateGalleryView, GalleryView
