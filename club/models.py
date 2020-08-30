@@ -20,7 +20,6 @@ class User(AbstractUser):
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_member = models.BooleanField('member status',default=True)
-    profile_pic = models.ImageField(upload_to='images/profile_pic', null=True, blank=True)
     groups = None
     user_permissions = None
     def __str__(self):
