@@ -72,8 +72,8 @@ class AddUserMemberView(ListCreateAPIView):
     queryset = UserMembers.objects.all()
 
     serializer_class = CreateUserMemberSerializer
-    authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsStaffUser, ]
+    # authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
 
 
     def post(self, request, *args, **kwargs):

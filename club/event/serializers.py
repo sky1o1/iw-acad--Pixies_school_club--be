@@ -12,7 +12,7 @@ class EventSerializer(serializers.ModelSerializer):
         fields = ['event_title', 'event_description', 'event_date', 'all', 'created_by']
 
     def create(self, validated_data):
-        user = Event(
+        event = Event(
             event_title=self.validated_data['event_title'],
             event_description=self.validated_data['event_description'],
             event_date=self.validated_data['event_date'],
@@ -22,5 +22,5 @@ class EventSerializer(serializers.ModelSerializer):
 
         )
 
-        user.save()
-        return user
+        event.save()
+        return event

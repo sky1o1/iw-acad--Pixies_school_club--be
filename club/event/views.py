@@ -37,7 +37,7 @@ class EventView(RetrieveAPIView):
     permission_classes = [AllowAny, ]
 
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk=kwargs['id'])
+        user = get_object_or_404(Event, pk=kwargs['id'])
         event_serializer = EventSerializer(user)
         return Response(event_serializer.data)
 
