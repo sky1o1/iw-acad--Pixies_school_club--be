@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from club.permissions import IsStaffUser, IsSuperUser
 
@@ -32,14 +32,11 @@ class EventSerializerView(CreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-class EventView(RetrieveAPIView):
-    # authentication_classes = [TokenAuthentication, ]
+class EventView(ListAPIView):
+    queryset = Event.objects.all()
+    serializer_class = EventSerializer
     permission_classes = [AllowAny, ]
 
-    def get(self, request, *args, **kwargs):
-        user = get_object_or_404(Event, pk=kwargs['id'])
-        event_serializer = EventSerializer(user)
-        return Response(event_serializer.data)
 
 
 

@@ -1,7 +1,7 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -27,22 +27,16 @@ class ArticleSerializerView(CreateAPIView):
         data['response'] = 'Successfully Posted'
         data['article_title'] = article.article_title
         data['article_description'] = article.article_description
-        data['created_by_staff'] = article.created_by_staff
-        data['created_by_member'] = article.created_by_member
+        # data['created_by_staff'] = article.created_by_staff
+        # data['created_by_member'] = article.created_by_member
         data['all'] = article.all
         return Response(data, status=status.HTTP_201_CREATED)
 
-class ArticleView(RetrieveAPIView):
-
-    # serializer_class = ArticleSerializer
-    authentication_classes = [TokenAuthentication, ]
+class ArticleView(ListAPIView):
+    queryset = Article.objects.all()
+    serializer_class = ArticleSerializer
     permission_classes = [AllowAny, ]
 
-
-    def get(self, request, *args, **kwargs):
-        user = get_object_or_404(Article, pk= kwargs['id'])
-        article_serializer = ArticleSerializer(user)
-        return Response(article_serializer.data)
 
 
 

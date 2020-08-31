@@ -9,14 +9,14 @@ class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Event
-        fields = ['event_title', 'event_description', 'event_date', 'all', 'created_by']
+        fields = ['event_title', 'event_description', 'event_date', 'all']
 
     def create(self, validated_data):
         event = Event(
             event_title=self.validated_data['event_title'],
             event_description=self.validated_data['event_description'],
             event_date=self.validated_data['event_date'],
-            created_by = self.validated_data['created_by'],
+            # created_by = self.validated_data['created_by'],
 
             # all=self.validated_data['all'],
 
