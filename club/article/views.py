@@ -40,7 +40,7 @@ class ArticleView(RetrieveAPIView):
 
 
     def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk= kwargs['id'])
+        user = get_object_or_404(Article, pk= kwargs['id'])
         article_serializer = ArticleSerializer(user)
         return Response(article_serializer.data)
 

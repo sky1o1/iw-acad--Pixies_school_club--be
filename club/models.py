@@ -78,7 +78,7 @@ class Event(models.Model):
     event_description = models.TextField(max_length=1000)
     event_date = models.DateField(null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
-    created_by = models.CharField(max_length=150)
+    # created_by = models.CharField(max_length=150)
     created_by = models.ForeignKey(UserStaffs, on_delete=models.CASCADE, default=1)
     # club_event = models.ForeignKey(Club, on_delete=models.CASCADE, default=1)
     # interested_members = models.ManyToManyField(UserMembers)
