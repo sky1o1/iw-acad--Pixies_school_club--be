@@ -51,7 +51,7 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 2
+    'PAGE_SIZE': 6
 }
 
 MIDDLEWARE = [
@@ -63,6 +63,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+CORS_ORIGIN_WHITELIST = [
+    "http://localhost:3000"
 ]
 
 ROOT_URLCONF = 'main.urls'

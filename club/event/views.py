@@ -16,7 +16,7 @@ class EventSerializerView(CreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsStaffUser,IsSuperUser, ]
+    permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)

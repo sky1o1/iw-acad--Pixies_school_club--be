@@ -2,7 +2,7 @@ from django.contrib.auth import authenticate, login, get_user_model, logout
 
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView,UpdateAPIView, DestroyAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView,UpdateAPIView, DestroyAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -12,6 +12,7 @@ from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
+from django.shortcuts import get_object_or_404
 
 User = get_user_model()
 
@@ -111,7 +112,7 @@ class UpdateUserView(ModelViewSet):
 class AdminFlagsetview(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AdminFlagset
-    permission_classes = [IsSuperUser,]
+    permission_classes = [AllowAny,]
 
 
      #authenticated user can view the list of entire user
@@ -130,17 +131,16 @@ class CreateGalleryView(ListCreateAPIView):
     queryset = Gallery.objects.all()
 
     serializer_class = GallerySerializer
-    authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsStaffUser, ]
+    # authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
         gallery = serializer.save()
-        data['image1']=gallery.image1
-        data['image2']=gallery.image2
-        data['image3']=gallery.image3
+        # data['image2']=gallery.image2
+        # data['image3']=gallery.image3
         data['response'] = 'Succesfully uploaded pictures to Gallery'
         return Response(data, status=status.HTTP_201_CREATED)
 
@@ -150,3 +150,13 @@ class GalleryView(ListAPIView):
     serializer_class = GallerySerializer
     # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
+
+class SinglePictureView(RetrieveAPIView):
+
+    serializer_class = GallerySerializer
+    permission_classes = [AllowAny, ]
+
+    def get(self, request, *args, **kwargs):
+        user = get_object_or_404(Gallery, pk= kwargs['id'])
+        profile_serializer = GallerySerializer(user)
+        return Response(profile_serializer.data)
