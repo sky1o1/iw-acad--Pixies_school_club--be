@@ -94,9 +94,9 @@ class Article(models.Model):
 
 
 class Gallery(models.Model):
-    image1 = models.ImageField(upload_to='images/club_pic/gallery')
-    image2 = models.ImageField(upload_to='images/club_pic/gallery', blank=True, null=True)
-    image3 = models.ImageField(upload_to='images/club_pic/gallery', blank=True, null=True)
+    image = models.ImageField(upload_to='images/club_pic/gallery')
+    # image2 = models.ImageField(upload_to='images/club_pic/gallery', blank=True, null=True)
+    # image3 = models.ImageField(upload_to='images/club_pic/gallery', blank=True, null=True)
 
     # club_img = models.OneToOneField(Club)
 

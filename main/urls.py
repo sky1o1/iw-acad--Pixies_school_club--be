@@ -17,7 +17,8 @@ Including another URLconf
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
-
+from django.conf.urls.static import static
+from django.conf import settings
 
 
 from club.accounts.views import AdminRegistrationView
@@ -29,4 +30,4 @@ urlpatterns = [
 
     # path('signup/', include('django.contrib.auth.urls')),
     path('', include('club.urls')),
-] + r.urls
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

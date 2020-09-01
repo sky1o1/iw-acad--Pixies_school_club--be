@@ -60,6 +60,7 @@ class AdminFlagset(serializers.ModelSerializer):
             is_staff=self.validated_data['is_staff'],
             is_member=self.validated_data['is_member'],
             username=self.validated_data['username'],
+            # club = self.validated_data['club'],
 
         )
         user.save()
@@ -130,13 +131,13 @@ class CreateUserMemberSerializer(serializers.ModelSerializer):
 class GallerySerializer(serializers.ModelSerializer):
     class Meta:
         model = Gallery
-        fields = ['image1','image2', 'image3']
+        fields = ['image']
 
     def create(self, validated_data):
         gallery = Gallery(
-            image1=self.validated_data['image1'],
-            image2=self.validated_data['image2'],
-            image3=self.validated_data['image3'],
+            image=self.validated_data['image'],
+            # image2=self.validated_data['image2'],
+            # image3=self.validated_data['image3'],
 
         )
         gallery.save()
