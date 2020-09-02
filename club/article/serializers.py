@@ -23,3 +23,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
         user.save()
         return user
+class ViewArticleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Article
+        fields = ['id','article_title', 'article_description', 'all']

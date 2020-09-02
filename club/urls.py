@@ -36,5 +36,6 @@ urlpatterns = [
     path('gallery/', GalleryView.as_view()), #everone
     path('contact-president/', ContactPresidentView.as_view()), #member can send message
     path('view-message/', ContactPresidentMessageView.as_view()), #president and admin can view the message
+
     path('<id>/', SinglePictureView.as_view()),
               ] + r.urls

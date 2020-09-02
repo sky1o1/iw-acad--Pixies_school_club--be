@@ -7,7 +7,7 @@ from club.permissions import IsStaffUser, IsSuperUser
 
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
-from .serializers import EventSerializer
+from .serializers import EventSerializer,ViewEventSerializer
 from club.models import Event
 from django.shortcuts import get_object_or_404
 
@@ -34,7 +34,7 @@ class EventSerializerView(CreateAPIView):
 
 class EventView(ListAPIView):
     queryset = Event.objects.all()
-    serializer_class = EventSerializer
+    serializer_class = ViewEventSerializer
     permission_classes = [AllowAny, ]
 
 

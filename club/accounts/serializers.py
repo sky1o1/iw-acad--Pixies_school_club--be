@@ -81,6 +81,7 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
         return attrs
     def create(self, validated_data):
         user = MemberApplicationRecord(
+            id = self.validated_data['id'],
             first_name=self.validated_data['first_name'],
             middle_name=self.validated_data['middle_name'],
             last_name=self.validated_data['last_name'],
@@ -92,6 +93,11 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
         # user.set_password(password)
         user.save()
         return user
+
+class ViewMemberApplicationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = MemberApplicationRecord
+        fields = ['id', 'first_name', 'middle_name', 'last_name', 'email','club_name']
 
 
 class StaffLoginSerializer(serializers.ModelSerializer):

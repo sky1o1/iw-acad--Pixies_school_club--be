@@ -6,7 +6,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIVi
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,ViewClubSerializer  , ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,ViewClubSerializer  , ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer, ViewGallerySerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -102,6 +102,7 @@ class SignupUserView(ListCreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
+
 #for delete and update
 class UpdateUserView(ModelViewSet):
     queryset = User.objects.all()
@@ -147,7 +148,7 @@ class CreateGalleryView(ListCreateAPIView):
 class GalleryView(ListAPIView):
     queryset = Gallery.objects.all()
 
-    serializer_class = GallerySerializer
+    serializer_class = ViewGallerySerializer
     # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
