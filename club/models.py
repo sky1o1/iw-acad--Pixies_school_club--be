@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 class Club(models.Model):
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    logo = models.ImageField(upload_to='images/club_pic/logo')
+    # logo = models.ImageField(upload_to='images/club_pic/logo')
 
 
     def __str__(self):
@@ -22,15 +22,15 @@ class User(AbstractUser):
     is_member = models.BooleanField('member status',default=True)
     groups = None
     user_permissions = None
+
     def __str__(self):
         return self.username
 
 
-
 class UserAdmin(models.Model):
-        user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-        groups = None
-        user_permissions = None
+    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    groups = None
+    user_permissions = None
 
 
 class UserStaffs(models.Model):
