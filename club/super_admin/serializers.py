@@ -27,22 +27,30 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+class ViewUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['id', 'first_name', 'last_name', 'middle_name', 'username', 'email', 'password']
+
+
 #for user -can update and delete their profile data except username which will remain constant
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'middle_name', 'email', 'password']
+        fields = ['id', 'first_name', 'last_name', 'middle_name', 'username', 'email', 'password', 'is_staff']
         extra_kwargs = {
             'password': {'write_only': True}
         }
 
     def create(self, validated_data):
         user = User(
+            id=self.validated_data['id'],
             first_name=self.validated_data['first_name'],
             last_name=self.validated_data['last_name'],
             middle_name=self.validated_data['middle_name'],
+            username=self.validated_data['username'],
             email=self.validated_data['email'],
-            password=self.validated_data['password'],
+            is_staff=self.validated_data['is_staff'],
 
         )
         password = self.validated_data['password']
@@ -71,17 +79,22 @@ class AdminFlagset(serializers.ModelSerializer):
 class CreateClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
-        fields = ['club_name', 'description', 'logo']
+        fields = [ 'club_name', 'description']
 
     def create(self, validated_data):
         club = Club(
             # president_name=self.validated_data['president_name'],
             club_name=self.validated_data['club_name'],
             description=self.validated_data['description'],
-            logo=self.validated_data['logo'],
         )
         club.save()
         return club
+
+class ViewClubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ['id', 'club_name', 'description']
+
 
 class CreateUserStaffSerializer(serializers.ModelSerializer):
     class Meta:

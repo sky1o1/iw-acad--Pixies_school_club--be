@@ -6,7 +6,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIVi
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,ViewClubSerializer  , ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -22,7 +22,7 @@ class AdminClubView(ListCreateAPIView):
 
     serializer_class = CreateClubSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsSuperUser, ]
+    permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -35,7 +35,7 @@ class AdminClubView(ListCreateAPIView):
 #others can view the clubs created by admin
 class ClubView(ListAPIView):
 
-    serializer_class = CreateClubSerializer
+    serializer_class = ViewClubSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
     def get_queryset(self):
@@ -48,7 +48,7 @@ class AdminUserStaffView(ListCreateAPIView):
 
     serializer_class = CreateUserStaffSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsSuperUser, ]
+    permission_classes = [AllowAny, ]
 
 
     def post(self, request, *args, **kwargs):
@@ -106,7 +106,7 @@ class SignupUserView(ListCreateAPIView):
 class UpdateUserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
 
 #for admin(can set flag for users)
 class AdminFlagsetview(ModelViewSet):
@@ -117,9 +117,9 @@ class AdminFlagsetview(ModelViewSet):
 
      #authenticated user can view the list of entire user
 class UserView(ListAPIView):
-    serializer_class = CreateUserSerializer
+    serializer_class = ViewUserSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsSuperUser,IsStaffUser, ]
+    permission_classes = [AllowAny ]
     search_backend = [SearchFilter, OrderingFilter, DjangoFilterBackend]
     search_fields = ['username']
     order_fields = ['id']
