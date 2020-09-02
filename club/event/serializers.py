@@ -24,3 +24,8 @@ class EventSerializer(serializers.ModelSerializer):
 
         event.save()
         return event
+class ViewEventSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Event
+        fields = ['id', 'event_title', 'event_description', 'event_date', 'all']

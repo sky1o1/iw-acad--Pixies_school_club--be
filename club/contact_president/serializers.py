@@ -18,3 +18,7 @@ class ContactPresidentSerializer(serializers.ModelSerializer):
         )
         user.save()
         return user
+class ViewContactPresidentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ContactPresident
+        fields = ['id', 'username', 'message_title', 'message', 'club']

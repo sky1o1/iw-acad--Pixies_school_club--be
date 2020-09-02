@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
 
 
-from .serializers import ArticleSerializer
+from .serializers import ArticleSerializer, ViewArticleSerializer
 from club.models import Article
 
 User = get_user_model()
@@ -34,7 +34,7 @@ class ArticleSerializerView(CreateAPIView):
 
 class ArticleView(ListAPIView):
     queryset = Article.objects.all()
-    serializer_class = ArticleSerializer
+    serializer_class = ViewArticleSerializer
     permission_classes = [AllowAny, ]
 
 

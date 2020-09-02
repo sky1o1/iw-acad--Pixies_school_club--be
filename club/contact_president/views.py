@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
-from .serializers import ContactPresidentSerializer
+from .serializers import ContactPresidentSerializer, ViewContactPresidentSerializer
 from club.models import Club, UserStaffs, UserMembers, ContactPresident
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -35,6 +35,6 @@ class ContactPresidentView(CreateAPIView):
 class ContactPresidentMessageView(ListAPIView):
     queryset = ContactPresident.objects.all()
 
-    serializer_class = ContactPresidentSerializer
+    serializer_class = ViewContactPresidentSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [IsStaffUser, ]

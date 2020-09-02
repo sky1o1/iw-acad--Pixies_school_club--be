@@ -155,3 +155,9 @@ class GallerySerializer(serializers.ModelSerializer):
         )
         gallery.save()
         return gallery
+
+
+class ViewGallerySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Gallery
+        fields = ['image']
