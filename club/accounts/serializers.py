@@ -81,7 +81,6 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
         return attrs
     def create(self, validated_data):
         user = MemberApplicationRecord(
-            id = self.validated_data['id'],
             first_name=self.validated_data['first_name'],
             middle_name=self.validated_data['middle_name'],
             last_name=self.validated_data['last_name'],

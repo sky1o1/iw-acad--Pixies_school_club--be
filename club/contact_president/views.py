@@ -22,7 +22,7 @@ class ContactPresidentView(CreateAPIView):
 
     serializer_class = ContactPresidentSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsAuthenticated, ]
+    permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
