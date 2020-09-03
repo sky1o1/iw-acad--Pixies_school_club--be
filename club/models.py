@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 class Club(models.Model):
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
-    # logo = models.ImageField(upload_to='images/club_pic/logo')
+    logo = models.ImageField(upload_to='images/club_pic/logo', default='images/club_pic/logo/art.png')
 
 
     def __str__(self):

@@ -79,11 +79,11 @@ class AdminFlagset(serializers.ModelSerializer):
 class CreateClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
-        fields = [ 'club_name', 'description']
+        fields = [ 'club_name', 'description', 'logo']
 
     def create(self, validated_data):
         club = Club(
-            # president_name=self.validated_data['president_name'],
+            logo=self.validated_data['logo'],
             club_name=self.validated_data['club_name'],
             description=self.validated_data['description'],
         )
@@ -93,7 +93,7 @@ class CreateClubSerializer(serializers.ModelSerializer):
 class ViewClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
-        fields = ['id', 'club_name', 'description']
+        fields = ['id','logo', 'club_name', 'description']
 
 
 class CreateUserStaffSerializer(serializers.ModelSerializer):
