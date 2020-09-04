@@ -29,7 +29,7 @@ class EventSerializerView(CreateAPIView):
         data['event_title'] = event.event_title
         data['event_description'] = event.event_description
         data['event_date'] = event.event_date
-        data['all'] = event.all
+        data['created_by'] = event.created_by
 
         return Response(data, status=status.HTTP_201_CREATED)
 
