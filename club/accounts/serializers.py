@@ -95,7 +95,7 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
 class ViewMemberApplicationSerializer(serializers.ModelSerializer):
     class Meta:
         model = MemberApplicationRecord
-        fields = ['id', 'name', 'interest_reason', 'email','club_name']
+        fields = ['name', 'interest_reason', 'email','club_name']
 
 
 class StaffLoginSerializer(serializers.ModelSerializer):

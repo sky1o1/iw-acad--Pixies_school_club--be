@@ -58,7 +58,7 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
 class MemberApplicationViewSerializerView(ListAPIView):
     serializer_class = ViewMemberApplicationSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsStaffUser,IsStaffUser, ]
+    permission_classes = [AllowAny,]
     def get_queryset(self):
         return MemberApplicationRecord.objects.all()
 
