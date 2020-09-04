@@ -5,7 +5,7 @@ from rest_framework.authtoken.views import obtain_auth_token
 from .views import home
 from .event.views import  EventSerializerView, EventView
 from .article.views import ArticleSerializerView, ArticleView
-from club.super_admin.views import AdminClubView,SinglePictureView, UpdateUserView, AdminUserStaffView, AdminFlagsetview,  SignupUserView, AddUserMemberView, ClubView, UserStaffView, UserView, CreateGalleryView, GalleryView
+from club.super_admin.views import AdminClubView,SinglePictureView, UpdateUserView, AdminUserStaffView, AdminFlagsetview,  SignupUserView, AddUserMemberView, ClubView, UserStaffView, UserView, CreateGalleryView, GalleryView, UserMemberView
 from club.contact_president.views import ContactPresidentView, ContactPresidentMessageView
 from .accounts.views import AdminRegistrationView, MemberApplicationRecordSerializerView, ProfileAPI, LogoutView, MemberApplicationViewSerializerView
 r = DefaultRouter()
@@ -18,6 +18,7 @@ urlpatterns = [
     path('', home, name='home'),
     path('view-club/', ClubView.as_view(), name='club'), #list club view( Allowany)
     path('view-staff/', UserStaffView.as_view(), name='staff'), #view president( Allowany)
+    path('view-members/', UserMemberView.as_view()),
     path('member-application/', MemberApplicationRecordSerializerView.as_view(), name='member-applicaion'), #post member application (allow any)
     path('login/', obtain_auth_token, name='login'),#login for all
     path('signup/admin/', AdminRegistrationView.as_view(), name='admin-signup'), #not in use

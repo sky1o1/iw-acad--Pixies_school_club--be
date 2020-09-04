@@ -12,6 +12,8 @@ from club.models import Event
 from django.shortcuts import get_object_or_404
 
 User = get_user_model()
+
+
 class EventSerializerView(CreateAPIView):
     queryset = Event.objects.all()
     serializer_class = EventSerializer

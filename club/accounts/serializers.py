@@ -2,13 +2,9 @@ from rest_framework import serializers
 from django.contrib.auth import get_user_model
 from django.db.models import Q
 from rest_framework.authtoken.models import Token
-
-
-
 from club.models import UserStaffs, UserMembers, MemberApplicationRecord, UserAdmin
 
 User = get_user_model()
-
 
 
 class AdminRegistrationSerializer(serializers.ModelSerializer):
@@ -79,6 +75,7 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
         if email.exists():
             raise serializers.ValidationError('Email already in use')
         return attrs
+
     def create(self, validated_data):
         user = MemberApplicationRecord(
             name=self.validated_data['name'],
@@ -91,6 +88,7 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
         # user.set_password(password)
         user.save()
         return user
+
 
 class ViewMemberApplicationSerializer(serializers.ModelSerializer):
     class Meta:
@@ -163,6 +161,7 @@ class MemberLoginSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError({'error': 'Incorrect password'})
         # data['token'] = 'TOKEN'
         return data
+
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:

@@ -12,6 +12,8 @@ from .serializers import ArticleSerializer, ViewArticleSerializer
 from club.models import Article
 
 User = get_user_model()
+
+
 class ArticleSerializerView(CreateAPIView):
     queryset = Article.objects.all()
 
@@ -31,6 +33,7 @@ class ArticleSerializerView(CreateAPIView):
         # data['created_by_member'] = article.created_by_member
         data['all'] = article.all
         return Response(data, status=status.HTTP_201_CREATED)
+
 
 class ArticleView(ListAPIView):
     queryset = Article.objects.all()

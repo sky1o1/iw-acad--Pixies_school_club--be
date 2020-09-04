@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from club.models import Event
 
 
-
 class EventSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -24,6 +23,8 @@ class EventSerializer(serializers.ModelSerializer):
 
         event.save()
         return event
+
+
 class ViewEventSerializer(serializers.ModelSerializer):
 
     class Meta:

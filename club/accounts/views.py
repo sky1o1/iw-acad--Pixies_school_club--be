@@ -10,8 +10,6 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
 from django.shortcuts import get_object_or_404
 from club.permissions import IsStaffUser, IsSuperUser
-
-
 from .serializers import AdminRegistrationSerializer, ProfileSerializer, MemberApplicationRecordSerializer, StaffLoginSerializer, MemberLoginSerializer,ViewMemberApplicationSerializer
 from club.models import  UserMembers, UserAdmin, MemberApplicationRecord
 
@@ -36,8 +34,6 @@ class AdminRegistrationView(ListCreateAPIView):
         return Response(data,   status=status.HTTP_201_CREATED)
 
 
-
-
 class MemberApplicationRecordSerializerView(ListCreateAPIView):
     queryset = MemberApplicationRecord.objects.all()
 
@@ -59,6 +55,7 @@ class MemberApplicationViewSerializerView(ListAPIView):
     serializer_class = ViewMemberApplicationSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny,]
+
     def get_queryset(self):
         return MemberApplicationRecord.objects.all()
 
@@ -68,6 +65,7 @@ class LogoutView(APIView):
     def get(self, request):
         self.request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
+
 
 class ProfileAPI(RetrieveAPIView):
 

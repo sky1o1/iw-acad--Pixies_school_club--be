@@ -17,6 +17,8 @@ from rest_framework.viewsets import ModelViewSet
 User = get_user_model()
 
 #admin can create and view club
+
+
 class ContactPresidentView(CreateAPIView):
     queryset = ContactPresident.objects.all()
 
@@ -31,6 +33,7 @@ class ContactPresidentView(CreateAPIView):
         club = serializer.save()
         data['response'] = 'Succesfully created Club'
         return Response(data, status=status.HTTP_201_CREATED)
+
 
 class ContactPresidentMessageView(ListAPIView):
     queryset = ContactPresident.objects.all()
