@@ -31,7 +31,7 @@ class ContactPresidentView(CreateAPIView):
         data = {}
         serializer.is_valid(raise_exception=True)
         club = serializer.save()
-        data['response'] = 'Succesfully created Club'
+        data['response'] = 'Succesfully sent message'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
