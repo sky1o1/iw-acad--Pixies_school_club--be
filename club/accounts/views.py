@@ -46,7 +46,7 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
         data = {}
         serializer.is_valid(raise_exception=True)
         club = serializer.save()
-        data['response'] = 'Succesfully appointed as president'
+        data['response'] = 'Succesfully sent the application'
 
         return Response(data, status=status.HTTP_201_CREATED)
 

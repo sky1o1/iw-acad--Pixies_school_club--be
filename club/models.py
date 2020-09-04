@@ -77,18 +77,14 @@ class Event(models.Model):
     event_description = models.TextField(max_length=1000)
     event_date = models.DateField(null=True, blank=True)
     created_at = models.DateField(auto_now_add=True)
-    # created_by = models.CharField(max_length=150)
-    # created_by = models.ForeignKey(UserStaffs, on_delete=models.CASCADE, default=1)
-    all = models.BooleanField(default=False)
+    created_by = models.CharField(max_length=150)
 
 
 class Article(models.Model):
     article_title = models.CharField(max_length=200)
     article_description = models.TextField(max_length=1000)
     created_at = models.DateField(auto_now_add=True)
-    # created_by_staff = models.ForeignKey(UserStaffs, on_delete=models.CASCADE, blank=True, null=True)
-    # created_by_member = models.ForeignKey(UserMembers, on_delete=models.CASCADE, blank=True, null=True)
-    all = models.BooleanField(default=False)
+    created_by = models.CharField(max_length=200)
 
 
 

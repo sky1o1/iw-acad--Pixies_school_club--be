@@ -32,14 +32,14 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class ViewUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'middle_name', 'username', 'email', 'password']
+        fields = ['id', 'first_name', 'last_name', 'middle_name', 'username', 'email', 'password', 'is_staff', 'is_member']
 
 
 #for user -can update and delete their profile data except username which will remain constant
 class UpdateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'first_name', 'last_name', 'middle_name', 'username', 'email', 'password', 'is_staff']
+        fields = ['id', 'first_name', 'last_name', 'middle_name', 'username', 'email', 'password', 'is_staff', 'is_member']
         extra_kwargs = {
             'password': {'write_only': True}
         }
@@ -53,6 +53,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
             username=self.validated_data['username'],
             email=self.validated_data['email'],
             is_staff=self.validated_data['is_staff'],
+            is_member=self.validated_data['is_member'],
 
         )
         password = self.validated_data['password']
