@@ -19,7 +19,7 @@ class User(AbstractUser):
     middle_name = models.CharField(max_length=50, blank=True)
     is_superuser = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
-    is_member = models.BooleanField('member status',default=True)
+    is_member = models.BooleanField('member status',default=False)
     groups = None
     user_permissions = None
 
