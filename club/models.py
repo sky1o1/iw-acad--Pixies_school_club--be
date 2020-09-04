@@ -65,7 +65,7 @@ class ContactPresident(models.Model):
     message_title = models.CharField(max_length=300)
     message = models.TextField(max_length=1000)
     club = models.CharField(max_length=200)
-    # username = models.ForeignKey(UserMembers, on_delete=models.CASCADE)
+    sent_by = models.CharField(max_length=150)
 
     def __str__(self):
         return self.message_title
