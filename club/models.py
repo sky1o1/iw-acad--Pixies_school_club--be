@@ -55,7 +55,7 @@ class UserMembers(models.Model):
 
 
 class MemberApplicationRecord(models.Model):
-    name = models.CharField(max_length=200, primary_key=True)
+    name = models.CharField(max_length=200)
     interest_reason = models.CharField(max_length=200)
     club_name = models.ForeignKey(Club, on_delete=models.CASCADE)
     resume = models.ImageField(upload_to='images/resume',  null=True, blank=True)

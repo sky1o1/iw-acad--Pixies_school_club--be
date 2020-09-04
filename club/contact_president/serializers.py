@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from club.models import Club, UserStaffs, UserMembers, ContactPresident
 User = get_user_model()
 
+
 class ContactPresidentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactPresident
@@ -18,6 +19,8 @@ class ContactPresidentSerializer(serializers.ModelSerializer):
         )
         user.save()
         return user
+
+
 class ViewContactPresidentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactPresident

@@ -6,7 +6,7 @@ from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIVi
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,ViewClubSerializer  , ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer, ViewGallerySerializer
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,ViewClubSerializer  , ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer, ViewGallerySerializer, UserStaffSerializer, UserMemberSerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -51,7 +51,6 @@ class AdminUserStaffView(ListCreateAPIView):
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
-
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
@@ -65,7 +64,7 @@ class AdminUserStaffView(ListCreateAPIView):
 class UserStaffView(ListAPIView):
     queryset = UserStaffs.objects.all()
 
-    serializer_class = CreateUserStaffSerializer
+    serializer_class = UserStaffSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
@@ -77,7 +76,6 @@ class AddUserMemberView(ListCreateAPIView):
     # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
-
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
@@ -86,13 +84,20 @@ class AddUserMemberView(ListCreateAPIView):
         data['response'] = 'Succesfully created Club'
         return Response(data, status=status.HTTP_201_CREATED)
 
+
+class UserMemberView(ListAPIView):
+    queryset = UserMembers.objects.all()
+
+    serializer_class = UserMemberSerializer
+    authentication_classes = [TokenAuthentication, ]
+    permission_classes = [AllowAny, ]
+
 #admin can add users
 class SignupUserView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
     # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
-
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
@@ -103,12 +108,12 @@ class SignupUserView(ListCreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-
 #for delete and update
 class UpdateUserView(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UpdateUserSerializer
     permission_classes = [AllowAny, ]
+
 
 #for admin(can set flag for users)
 class AdminFlagsetview(ModelViewSet):
@@ -129,6 +134,8 @@ class UserView(ListAPIView):
 
     def get_queryset(self):
         return User.objects.all()
+
+
 class CreateGalleryView(ListCreateAPIView):
     queryset = Gallery.objects.all()
 
@@ -146,12 +153,14 @@ class CreateGalleryView(ListCreateAPIView):
         data['response'] = 'Succesfully uploaded pictures to Gallery'
         return Response(data, status=status.HTTP_201_CREATED)
 
+
 class GalleryView(ListAPIView):
     queryset = Gallery.objects.all()
 
     serializer_class = ViewGallerySerializer
     # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
+
 
 class SinglePictureView(RetrieveAPIView):
 

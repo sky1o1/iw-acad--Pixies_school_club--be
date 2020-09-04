@@ -4,6 +4,7 @@ from django.contrib.auth import get_user_model
 from club.models import Club, UserStaffs, UserMembers, Gallery
 User = get_user_model()
 
+
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -26,6 +27,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
         user.set_password(password)
         user.save()
         return user
+
 
 class ViewUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -58,6 +60,7 @@ class UpdateUserSerializer(serializers.ModelSerializer):
         user.save()
         return user
 
+
 class AdminFlagset(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -75,7 +78,6 @@ class AdminFlagset(serializers.ModelSerializer):
         return user
 
 
-
 class CreateClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
@@ -90,6 +92,7 @@ class CreateClubSerializer(serializers.ModelSerializer):
         club.save()
         return club
 
+
 class ViewClubSerializer(serializers.ModelSerializer):
     class Meta:
         model = Club
@@ -100,7 +103,6 @@ class CreateUserStaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserStaffs
         fields = ['club_name', 'user']
-
 
     def create(self, validated_data):
         userstaffs = UserStaffs(
@@ -118,13 +120,14 @@ class CreateUserStaffSerializer(serializers.ModelSerializer):
         userstaffs.save()
         return userstaffs
 
+
 class CreateUserMemberSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserMembers
         fields = ['club_name', 'user']
 
-
     def create(self, validated_data):
+
         usermember = UserMembers(
             # first_name=self.validated_data['first_name'],
             # last_name=self.validated_data['last_name'],
@@ -139,6 +142,18 @@ class CreateUserMemberSerializer(serializers.ModelSerializer):
         # userstaffs.set_password(password)
         usermember.save()
         return usermember
+
+
+class UserStaffSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserStaffs
+        fields = ['club_name', 'user']
+
+
+class UserMemberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserMembers
+        fields = ['club_name', 'user']
 
 
 class GallerySerializer(serializers.ModelSerializer):

@@ -4,7 +4,6 @@ from django.contrib.auth import get_user_model
 from club.models import Article
 
 
-
 class ArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
@@ -23,6 +22,8 @@ class ArticleSerializer(serializers.ModelSerializer):
 
         user.save()
         return user
+
+
 class ViewArticleSerializer(serializers.ModelSerializer):
 
     class Meta:
