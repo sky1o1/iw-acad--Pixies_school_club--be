@@ -8,11 +8,11 @@ User = get_user_model()
 class ContactPresidentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactPresident
-        fields = ['username', 'message_title', 'message', 'club']
+        fields = [ 'message_title', 'message', 'club']
 
     def create(self, validated_data):
         user = ContactPresident(
-            username=self.validated_data['username'],
+            # username=self.validated_data['username'],
             message_title=self.validated_data['message_title'],
             message=self.validated_data['message'],
             club=self.validated_data['club'],
@@ -24,4 +24,4 @@ class ContactPresidentSerializer(serializers.ModelSerializer):
 class ViewContactPresidentSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactPresident
-        fields = ['id', 'username', 'message_title', 'message', 'club']
+        fields = ['id', 'message_title', 'message', 'club']
