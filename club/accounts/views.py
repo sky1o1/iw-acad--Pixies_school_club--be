@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model, authenticate, login
 from rest_framework import status, generics
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
@@ -42,25 +42,23 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
     queryset = MemberApplicationRecord.objects.all()
 
     serializer_class = MemberApplicationRecordSerializer
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        account = serializer.save()
-        data['response'] = 'Successfully created a new user'
-        data['first_name'] = account.first_name
-        data['last_name'] = account.last_name
-        data['middle_name'] = account.middle_name
-        data['club_name'] = account.club_name
-        data['email'] = account.email
+        club = serializer.save()
+        data['response'] = 'Succesfully appointed as president'
+
         return Response(data, status=status.HTTP_201_CREATED)
+
 
 class MemberApplicationViewSerializerView(ListAPIView):
     serializer_class = ViewMemberApplicationSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsStaffUser,IsStaffUser, ]
+    permission_classes = [AllowAny,]
     def get_queryset(self):
         return MemberApplicationRecord.objects.all()
 

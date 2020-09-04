@@ -17,11 +17,11 @@ from django.shortcuts import get_object_or_404
 User = get_user_model()
 
 #admin can create and view club
-class AdminClubView(ListCreateAPIView):
+class AdminClubView(CreateAPIView):
     queryset = Club.objects.all()
 
     serializer_class = CreateClubSerializer
-    authentication_classes = [TokenAuthentication, ]
+    # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
@@ -34,9 +34,10 @@ class AdminClubView(ListCreateAPIView):
 
 #others can view the clubs created by admin
 class ClubView(ListAPIView):
+    queryset = Club.objects.all()
 
     serializer_class = ViewClubSerializer
-    authentication_classes = [TokenAuthentication, ]
+    # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
     def get_queryset(self):
         return Club.objects.all()
