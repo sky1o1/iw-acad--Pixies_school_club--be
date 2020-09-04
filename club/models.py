@@ -61,7 +61,6 @@ class MemberApplicationRecord(models.Model):
     resume = models.ImageField(upload_to='images/resume',  null=True, blank=True)
     email = models.EmailField()
 
-
 class ContactPresident(models.Model):
     message_title = models.CharField(max_length=300)
     message = models.TextField(max_length=1000)

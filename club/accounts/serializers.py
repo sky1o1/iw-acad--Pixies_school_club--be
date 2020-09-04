@@ -91,9 +91,12 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
 
 
 class ViewMemberApplicationSerializer(serializers.ModelSerializer):
+    club_name = serializers.SerializerMethodField(source='get_club_name')
     class Meta:
         model = MemberApplicationRecord
-        fields = ['name', 'interest_reason', 'email','club_name']
+        fields = '__all__'
+    def get_club_name(self, obj):
+        return obj.club_name.club_name
 
 
 class StaffLoginSerializer(serializers.ModelSerializer):
