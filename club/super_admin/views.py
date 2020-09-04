@@ -81,7 +81,7 @@ class AddUserMemberView(ListCreateAPIView):
         data = {}
         serializer.is_valid(raise_exception=True)
         usermember = serializer.save()
-        data['response'] = 'Succesfully created Club'
+        data['response'] = 'Succesfully Added Member'
         return Response(data, status=status.HTTP_201_CREATED)
 
 

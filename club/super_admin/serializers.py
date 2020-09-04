@@ -145,15 +145,33 @@ class CreateUserMemberSerializer(serializers.ModelSerializer):
 
 
 class UserStaffSerializer(serializers.ModelSerializer):
+    club_name = serializers.SerializerMethodField(source='get_club_name')
+    user = serializers.SerializerMethodField(source='get_user')
+
     class Meta:
         model = UserStaffs
         fields = ['club_name', 'user']
 
+    def get_club_name(self, obj):
+        return obj.club_name.club_name
+
+    def get_user(self, obj):
+        return obj.user.username
+
 
 class UserMemberSerializer(serializers.ModelSerializer):
+    club_name = serializers.SerializerMethodField(source='get_club_name')
+    user = serializers.SerializerMethodField(source='get_user')
+
     class Meta:
         model = UserMembers
         fields = ['club_name', 'user']
+
+    def get_club_name(self, obj):
+        return obj.club_name.club_name
+
+    def get_user(self, obj):
+        return obj.user.username
 
 
 class GallerySerializer(serializers.ModelSerializer):
