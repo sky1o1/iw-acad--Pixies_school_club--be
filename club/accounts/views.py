@@ -5,6 +5,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
+from rest_framework.viewsets import ModelViewSet
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
@@ -58,6 +59,13 @@ class MemberApplicationViewSerializerView(ListAPIView):
 
     def get_queryset(self):
         return MemberApplicationRecord.objects.all()
+
+
+class DeleteMemeberApplication(ModelViewSet):
+    queryset = MemberApplicationRecord.objects.all()
+    serializer_class = ViewMemberApplicationSerializer
+    permission_classes = [AllowAny, ]
+
 
 
 class LogoutView(APIView):
