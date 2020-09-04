@@ -29,9 +29,7 @@ class ArticleSerializerView(CreateAPIView):
         data['response'] = 'Successfully Posted'
         data['article_title'] = article.article_title
         data['article_description'] = article.article_description
-        # data['created_by_staff'] = article.created_by_staff
-        # data['created_by_member'] = article.created_by_member
-        data['all'] = article.all
+        data['created_by'] = article.created_by
         return Response(data, status=status.HTTP_201_CREATED)
 
 
