@@ -7,11 +7,11 @@ from .event.views import  EventSerializerView, EventView
 from .article.views import ArticleSerializerView, ArticleView
 from club.super_admin.views import AdminClubView,SinglePictureView, UpdateUserView, AdminUserStaffView, AdminFlagsetview,  SignupUserView, AddUserMemberView, ClubView, UserStaffView, UserView, CreateGalleryView, GalleryView, UserMemberView
 from club.contact_president.views import ContactPresidentView, ContactPresidentMessageView
-from .accounts.views import AdminRegistrationView, MemberApplicationRecordSerializerView, ProfileAPI, LogoutView, MemberApplicationViewSerializerView
+from .accounts.views import AdminRegistrationView, MemberApplicationRecordSerializerView, ProfileAPI, LogoutView, MemberApplicationViewSerializerView, DeleteMemeberApplication
 r = DefaultRouter()
 r.register('info/view-profile', UpdateUserView) #user le afno profile update /delete garni
 r.register('admin/set-flag', AdminFlagsetview)#admin le is_staff/is_member flag set garni (default member=true)
-
+r.register('delete-application', DeleteMemeberApplication)
 
 
 urlpatterns = [
