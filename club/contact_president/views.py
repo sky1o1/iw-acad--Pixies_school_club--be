@@ -40,4 +40,4 @@ class ContactPresidentMessageView(ListAPIView):
 
     serializer_class = ViewContactPresidentSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsStaffUser, ]
+    permission_classes = [AllowAny, ]
