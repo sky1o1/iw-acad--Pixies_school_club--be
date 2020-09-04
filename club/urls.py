@@ -31,6 +31,7 @@ urlpatterns = [
     path('article/', ArticleView.as_view(), name= 'article'),# view article /everyone
     path('event/', EventView.as_view(), name='event'), #view event /everyone
     path('post-event/', EventSerializerView.as_view()), #post article by superadmin and president only
+    path('post-article/', ArticleSerializerView.as_view()),
     path('<id>/profile/', ProfileAPI.as_view()), #single profile view for authenticated user (creditantial not displayed
     path('upload-gallery/', CreateGalleryView.as_view()),#by president
     path('gallery/', GalleryView.as_view()), #everone
