@@ -14,7 +14,10 @@ class ArticleSerializer(serializers.ModelSerializer):
         user = Article(
             article_title=self.validated_data['article_title'],
             article_description=self.validated_data['article_description'],
-            created_by=self.validated_data['created_by'],
+
+            # all=self.validated_data['all'],
+             #created_by=self.validated_data['created_by'],
+
 
         )
 

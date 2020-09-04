@@ -122,7 +122,7 @@ class AdminFlagsetview(ModelViewSet):
     permission_classes = [AllowAny,]
 
 
-     #authenticated user can view the list of entire user
+     #admin user can view the list of entire user
 class UserView(ListAPIView):
     serializer_class = ViewUserSerializer
     authentication_classes = [TokenAuthentication, ]

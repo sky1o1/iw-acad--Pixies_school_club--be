@@ -92,9 +92,11 @@ class MemberApplicationRecordSerializer(serializers.ModelSerializer):
 
 class ViewMemberApplicationSerializer(serializers.ModelSerializer):
     club_name = serializers.SerializerMethodField(source='get_club_name')
+
     class Meta:
         model = MemberApplicationRecord
         fields = ['id','name', 'interest_reason', 'email','club_name']
+
     def create(self, validated_data):
         user = MemberApplicationRecord(
             id=self.validated_data['id'],
