@@ -52,7 +52,7 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
         return Response(data, status=status.HTTP_201_CREATED)
 
 
-class MemberApplicationViewSerializerView(ListAPIView):
+class MemberApplicationSerializerView(ListAPIView):
     serializer_class = ViewMemberApplicationSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny,]
