@@ -13,3 +13,10 @@ class IsSuperUser(BasePermission):
         authenticated = request.user.is_authenticated
         super_user = request.user.is_superuser
         return authenticated and super_user
+
+
+class IsMember(BasePermission):
+    def has_permission(self, request, view):
+        authenticated = request.user.is_authenticated
+        member = request.user.is_member
+        return authenticated and member

@@ -1,37 +1,16 @@
-from django.contrib.auth import get_user_model, authenticate, login
-from rest_framework import status, generics
-from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, ListAPIView, CreateAPIView
+from django.contrib.auth import get_user_model
+from rest_framework import status
+from rest_framework.generics import ListCreateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny, IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.authtoken.models import Token
 from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from club.permissions import IsStaffUser, IsSuperUser
-from .serializers import AdminRegistrationSerializer, ProfileSerializer, MemberApplicationRecordSerializer, StaffLoginSerializer, MemberLoginSerializer,ViewMemberApplicationSerializer
-from club.models import  UserMembers, UserAdmin, MemberApplicationRecord
+from club.permissions import IsStaffUser
+from .serializers import MemberApplicationRecordSerializer, ViewMemberApplicationSerializer
+from club.models import MemberApplicationRecord
 
 User = get_user_model()
-
-
-class AdminRegistrationView(ListCreateAPIView):
-    queryset = UserAdmin.objects.all()
-    serializer_class = AdminRegistrationSerializer
-    authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny, ]
-
-    def post(self, request, *args, **kwargs):
-        serializer = self.serializer_class(data=request.data)
-        data = {}
-        serializer.is_valid(raise_exception=True)
-        account = serializer.save()
-        data['username'] = account.username
-        token = Token.objects.get(user=account).key
-        data['token'] = token.key
-        return Response(data,   status=status.HTTP_201_CREATED)
 
 
 class MemberApplicationRecordSerializerView(ListCreateAPIView):
@@ -44,22 +23,21 @@ class MemberApplicationRecordSerializerView(ListCreateAPIView):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        club = serializer.save()
-        data['response'] = 'Succesfully sent the application'
-
+        serializer.save()
+        data['response'] = 'Successfully sent the application'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
 class MemberApplicationSerializerView(ListAPIView):
     serializer_class = ViewMemberApplicationSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
 
     def get_queryset(self):
         return MemberApplicationRecord.objects.all()
 
 
-class DeleteMemeberApplication(ModelViewSet):
+class DeleteMemberApplication(ModelViewSet):
     queryset = MemberApplicationRecord.objects.all()
     serializer_class = ViewMemberApplicationSerializer
     permission_classes = [AllowAny, ]
@@ -71,14 +49,3 @@ class LogoutView(APIView):
         self.request.user.auth_token.delete()
         return Response(status=status.HTTP_200_OK)
 
-
-class ProfileAPI(RetrieveAPIView):
-
-    serializer_class = ProfileSerializer
-    authentication_classes = [TokenAuthentication, ]
-    permission_classes = [IsAuthenticated, ]
-
-    def get(self, request, *args, **kwargs):
-        user = get_object_or_404(User, pk= kwargs['id'])
-        profile_serializer = ProfileSerializer(user)
-        return Response(profile_serializer.data)

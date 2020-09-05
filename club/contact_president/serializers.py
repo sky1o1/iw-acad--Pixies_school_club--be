@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-from club.models import Club, UserStaffs, UserMembers, ContactPresident
+from club.models import ContactPresident
 User = get_user_model()
 
 

@@ -1,19 +1,12 @@
-from django.contrib.auth import authenticate, login, get_user_model, logout
-
-from rest_framework.permissions import AllowAny
+from django.contrib.auth import get_user_model
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView,UpdateAPIView, DestroyAPIView
+from rest_framework.generics import ListAPIView,  CreateAPIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authtoken.models import Token
 from .serializers import ContactPresidentSerializer, ViewContactPresidentSerializer
-from club.models import Club, UserStaffs, UserMembers, ContactPresident
-from club.permissions import IsStaffUser, IsSuperUser
-from rest_framework.filters import SearchFilter,OrderingFilter
-from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework.viewsets import ModelViewSet
-
+from club.models import ContactPresident
+from club.permissions import IsStaffUser, IsMember
+from rest_framework.permissions import AllowAny
 User = get_user_model()
 
 
@@ -27,8 +20,8 @@ class ContactPresidentView(CreateAPIView):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        club = serializer.save()
-        data['response'] = 'Succesfully sent message'
+        serializer.save()
+        data['response'] = 'Successfully sent message'
         return Response(data, status=status.HTTP_201_CREATED)
 
 

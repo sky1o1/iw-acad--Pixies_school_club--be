@@ -1,11 +1,13 @@
-from django.contrib.auth import authenticate, login, get_user_model, logout
+from django.contrib.auth import get_user_model
 from rest_framework.permissions import AllowAny
 from rest_framework import status
-from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView,UpdateAPIView, DestroyAPIView, RetrieveAPIView
+from rest_framework.generics import ListCreateAPIView, ListAPIView,  CreateAPIView, RetrieveAPIView
 from rest_framework.response import Response
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer,AdminFlagset,ViewClubSerializer  , ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer, ViewGallerySerializer, UserStaffSerializer, UserMemberSerializer
+from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer, AdminFlagset, \
+    ViewClubSerializer, ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer,\
+    ViewGallerySerializer, UserStaffSerializer, UserMemberSerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -20,24 +22,23 @@ class AdminClubView(CreateAPIView):
     queryset = Club.objects.all()
 
     serializer_class = CreateClubSerializer
-    # authentication_classes = [TokenAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        club = serializer.save()
-        data['response'] = 'Succesfully created Club'
+        serializer.save()
+        data['response'] = 'Successfully created Club'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
 class ClubView(ListAPIView):
     queryset = Club.objects.all()
-
     serializer_class = ViewClubSerializer
-    # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
+
     def get_queryset(self):
         return Club.objects.all()
 
@@ -52,8 +53,8 @@ class AdminUserStaffView(ListCreateAPIView):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        club = serializer.save()
-        data['response'] = 'Succesfully appointed as president'
+        serializer.save()
+        data['response'] = 'Successfully appointed as president'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -67,15 +68,15 @@ class UserStaffView(ListAPIView):
 class AddUserMemberView(ListCreateAPIView):
     queryset = UserMembers.objects.all()
     serializer_class = CreateUserMemberSerializer
-    # authentication_classes = [TokenAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        usermember = serializer.save()
-        data['response'] = 'Succesfully Added Member'
+        serializer.save()
+        data['response'] = 'Successfully Added Member'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -89,15 +90,14 @@ class UserMemberView(ListAPIView):
 class SignupUserView(ListCreateAPIView):
     queryset = User.objects.all()
     serializer_class = CreateUserSerializer
-    # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        User = serializer.save()
-        data['response'] = 'Succesfully created user'
+        serializer.save()
+        data['response'] = 'Successfully created user'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
@@ -110,17 +110,17 @@ class UpdateUserView(ModelViewSet):
 class AdminFlagsetview(ModelViewSet):
     queryset = User.objects.all()
     serializer_class = AdminFlagset
-    permission_classes = [AllowAny,]
+    permission_classes = [AllowAny, ]
 
 
 class UserView(ListAPIView):
     serializer_class = ViewUserSerializer
     authentication_classes = [TokenAuthentication, ]
-    permission_classes = [AllowAny ]
+    permission_classes = [AllowAny, ]
     search_backend = [SearchFilter, OrderingFilter, DjangoFilterBackend]
     search_fields = ['username']
     order_fields = ['id']
-    filterset_fields =['username','id']
+    filter_set_fields = ['username', 'id']
 
     def get_queryset(self):
         return User.objects.all()
@@ -129,22 +129,21 @@ class UserView(ListAPIView):
 class CreateGalleryView(ListCreateAPIView):
     queryset = Gallery.objects.all()
     serializer_class = GallerySerializer
-    # authentication_classes = [TokenAuthentication, ]
+    authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
     def post(self, request, *args, **kwargs):
         serializer = self.serializer_class(data=request.data)
         data = {}
         serializer.is_valid(raise_exception=True)
-        gallery = serializer.save()
-        data['response'] = 'Succesfully uploaded pictures to Gallery'
+        serializer.save()
+        data['response'] = 'Successfully uploaded pictures to Gallery'
         return Response(data, status=status.HTTP_201_CREATED)
 
 
 class GalleryView(ListAPIView):
     queryset = Gallery.objects.all()
     serializer_class = ViewGallerySerializer
-    # authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
 
 
