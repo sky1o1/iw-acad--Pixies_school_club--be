@@ -28,7 +28,6 @@ class AdminRegistrationView(ListCreateAPIView):
         data = {}
         serializer.is_valid(raise_exception=True)
         account = serializer.save()
-        # data['email'] = account.email
         data['username'] = account.username
         token = Token.objects.get(user=account).key
         data['token'] = token.key
@@ -37,7 +36,6 @@ class AdminRegistrationView(ListCreateAPIView):
 
 class MemberApplicationRecordSerializerView(ListCreateAPIView):
     queryset = MemberApplicationRecord.objects.all()
-
     serializer_class = MemberApplicationRecordSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
@@ -65,7 +63,6 @@ class DeleteMemeberApplication(ModelViewSet):
     queryset = MemberApplicationRecord.objects.all()
     serializer_class = ViewMemberApplicationSerializer
     permission_classes = [AllowAny, ]
-
 
 
 class LogoutView(APIView):

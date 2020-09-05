@@ -6,8 +6,6 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from django.shortcuts import get_object_or_404
-
-
 from .serializers import ArticleSerializer, ViewArticleSerializer
 from club.models import Article
 
@@ -16,7 +14,6 @@ User = get_user_model()
 
 class ArticleSerializerView(CreateAPIView):
     queryset = Article.objects.all()
-
     serializer_class = ArticleSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]

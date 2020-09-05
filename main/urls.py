@@ -13,21 +13,13 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-# from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from rest_framework.authtoken.views import obtain_auth_token
 from django.conf.urls.static import static
 from django.conf import settings
-
-
-from club.accounts.views import AdminRegistrationView
 r = DefaultRouter()
 
 
 urlpatterns = [
-    # path('signup/', obtain_auth_token),
-
-    # path('signup/', include('django.contrib.auth.urls')),
     path('', include('club.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

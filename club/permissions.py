@@ -7,6 +7,7 @@ class IsStaffUser(BasePermission):
         staff_user = request.user.is_staff
         return authenticated and staff_user
 
+
 class IsSuperUser(BasePermission):
     def has_permission(self, request, view):
         authenticated = request.user.is_authenticated

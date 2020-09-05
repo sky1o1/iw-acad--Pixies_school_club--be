@@ -5,11 +5,11 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
 
+
 class Club(models.Model):
     club_name = models.CharField(max_length=200)
     description = models.CharField(max_length=1000)
     logo = models.ImageField(upload_to='images/club_pic/logo', default='images/club_pic/logo/art.png')
-
 
     def __str__(self):
         return self.club_name
@@ -38,10 +38,9 @@ class UserStaffs(models.Model):
     club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
     groups = None
     user_permissions = None
+
     def __str__(self):
         return self.user.username
-
-
 
 
 class UserMembers(models.Model):
@@ -49,9 +48,9 @@ class UserMembers(models.Model):
     club_name = models.ForeignKey(Club, on_delete=models.CASCADE)
     groups = None
     user_permissions = None
+
     def __str__(self):
         return self.user.username
-
 
 
 class MemberApplicationRecord(models.Model):
@@ -60,6 +59,7 @@ class MemberApplicationRecord(models.Model):
     club_name = models.ForeignKey(Club, on_delete=models.CASCADE)
     resume = models.ImageField(upload_to='images/resume',  null=True, blank=True)
     email = models.EmailField()
+
 
 class ContactPresident(models.Model):
     message_title = models.CharField(max_length=300)
@@ -86,13 +86,8 @@ class Article(models.Model):
     created_by = models.CharField(max_length=200)
 
 
-
 class Gallery(models.Model):
     image = models.ImageField(upload_to='images/club_pic/gallery')
-    # image2 = models.ImageField(upload_to='images/club_pic/gallery', blank=True, null=True)
-    # image3 = models.ImageField(upload_to='images/club_pic/gallery', blank=True, null=True)
-
-    # club_img = models.OneToOneField(Club)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)

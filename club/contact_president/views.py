@@ -16,12 +16,9 @@ from rest_framework.viewsets import ModelViewSet
 
 User = get_user_model()
 
-#admin can create and view club
-
 
 class ContactPresidentView(CreateAPIView):
     queryset = ContactPresident.objects.all()
-
     serializer_class = ContactPresidentSerializer
     authentication_classes = [TokenAuthentication, ]
     permission_classes = [AllowAny, ]
