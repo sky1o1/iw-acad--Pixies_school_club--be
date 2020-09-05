@@ -16,7 +16,7 @@ class ArticleSerializer(serializers.ModelSerializer):
             article_description=self.validated_data['article_description'],
 
             # all=self.validated_data['all'],
-             #created_by=self.validated_data['created_by'],
+             created_by=self.validated_data['created_by'],
 
 
         )
