@@ -1,5 +1,4 @@
 from rest_framework import serializers
-from django.contrib.auth import get_user_model
 from club.models import Event
 
 
@@ -13,7 +12,7 @@ class EventSerializer(serializers.ModelSerializer):
             event_title=self.validated_data['event_title'],
             event_description=self.validated_data['event_description'],
             event_date=self.validated_data['event_date'],
-            created_by = self.validated_data['created_by'],
+            created_by=self.validated_data['created_by'],
 
         )
 

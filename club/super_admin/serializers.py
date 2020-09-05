@@ -119,7 +119,6 @@ class CreateUserMemberSerializer(serializers.ModelSerializer):
         fields = ['club_name', 'user']
 
     def create(self, validated_data):
-
         usermember = UserMembers(
             user=self.validated_data['user'],
             club_name=self.validated_data['club_name'],

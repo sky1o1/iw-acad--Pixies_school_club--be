@@ -27,12 +27,6 @@ class User(AbstractUser):
         return self.username
 
 
-class UserAdmin(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-    groups = None
-    user_permissions = None
-
-
 class UserStaffs(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     club_name = models.OneToOneField(Club, on_delete=models.CASCADE)
