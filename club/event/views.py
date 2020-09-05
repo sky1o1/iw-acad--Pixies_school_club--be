@@ -1,10 +1,9 @@
 from django.contrib.auth import get_user_model, authenticate, login
-from rest_framework import status, generics
+from rest_framework import status
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.generics import ListCreateAPIView, RetrieveAPIView, CreateAPIView, ListAPIView
 from rest_framework.permissions import AllowAny,IsAuthenticated
 from club.permissions import IsStaffUser, IsSuperUser
-
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import EventSerializer,ViewEventSerializer

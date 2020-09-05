@@ -1,11 +1,9 @@
 from rest_framework import serializers
 from django.contrib.auth import get_user_model
-
 from club.models import Event
 
 
 class EventSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = Event
         fields = ['event_title', 'event_description', 'event_date', 'created_by']
