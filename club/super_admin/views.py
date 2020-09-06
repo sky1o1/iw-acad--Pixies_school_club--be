@@ -7,7 +7,7 @@ from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from .serializers import CreateClubSerializer, CreateUserStaffSerializer, UpdateUserSerializer, AdminFlagset, \
     ViewClubSerializer, ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer,\
-    ViewGallerySerializer, UserStaffSerializer, UserMemberSerializer
+    ViewGallerySerializer, UserStaffSerializer, UserMemberSerializer, DeleteClubSerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
 from club.permissions import IsStaffUser, IsSuperUser
 from rest_framework.filters import SearchFilter,OrderingFilter
@@ -39,8 +39,11 @@ class ClubView(ListAPIView):
     serializer_class = ViewClubSerializer
     permission_classes = [AllowAny, ]
 
-    def get_queryset(self):
-        return Club.objects.all()
+
+class DeleteClub(ModelViewSet):
+    queryset = Club.objects.all()
+    serializer_class = DeleteClubSerializer
+    permission_classes = [AllowAny, ]
 
 
 class AdminUserStaffView(ListCreateAPIView):

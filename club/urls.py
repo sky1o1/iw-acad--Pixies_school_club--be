@@ -3,7 +3,8 @@ from rest_framework.routers import DefaultRouter
 from rest_framework.authtoken.views import obtain_auth_token
 from .event.views import  EventSerializerView, EventView
 from .article.views import ArticleSerializerView, ArticleView
-from club.super_admin.views import AdminClubView,SinglePictureView, UpdateUserView, AdminUserStaffView, AdminFlagsetview, SignupUserView, AddUserMemberView, ClubView, UserStaffView, UserView, CreateGalleryView, GalleryView, UserMemberView
+from club.super_admin.views import AdminClubView,SinglePictureView, UpdateUserView, AdminUserStaffView, AdminFlagsetview, \
+    SignupUserView, AddUserMemberView, ClubView, UserStaffView, UserView, CreateGalleryView, GalleryView, UserMemberView, DeleteClub
 from club.contact_president.views import ContactPresidentView, ContactPresidentMessageView
 from .accounts.views import MemberApplicationRecordSerializerView, LogoutView, \
     MemberApplicationSerializerView, DeleteMemberApplication
@@ -12,6 +13,7 @@ r = DefaultRouter()
 r.register('info/view-profile', UpdateUserView)
 r.register('admin/set-flag', AdminFlagsetview)
 r.register('delete-application', DeleteMemberApplication)
+r.register('delete-club', DeleteClub)
 
 
 urlpatterns = [
