@@ -98,6 +98,13 @@ class ViewClubSerializer(serializers.ModelSerializer):
         fields = ['id','logo', 'club_name', 'description']
 
 
+class DeleteClubSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Club
+        fields = ['id', 'club_name']
+
+
+
 class CreateUserStaffSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserStaffs
