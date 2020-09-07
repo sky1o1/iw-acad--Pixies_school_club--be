@@ -9,7 +9,7 @@ from .serializers import CreateClubSerializer, CreateUserStaffSerializer, Update
     ViewClubSerializer, ViewUserSerializer,  CreateUserSerializer, CreateUserMemberSerializer, GallerySerializer,\
     ViewGallerySerializer, UserStaffSerializer, UserMemberSerializer, DeleteClubSerializer
 from club.models import Club, UserStaffs, UserMembers, Gallery
-from club.permissions import IsStaffUser, IsSuperUser
+from club.permissions import IsStaffUser, IsSuperUser,IsMember
 from rest_framework.filters import SearchFilter,OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
