@@ -145,3 +145,6 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'club.User'
 
 CORS_ORIGIN_ALLOW_ALL = True
+#
+# SECRET_KEY = config('SECRET_KEY')
+# DEBUG = config('DEBUG', default=False, cast=bool)
