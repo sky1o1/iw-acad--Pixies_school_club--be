@@ -25,7 +25,7 @@ SECRET_KEY = '_*u4ki-t@6uk$zzf2!ot!mueo0om2)&t=fwpm@g%*=^#0q0$)k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pixes-schoolclub.herokuapp.com'', '127.0.0.1']
+ALLOWED_HOSTS = ['pixes-schoolclub.herokuapp.com', '127.0.0.1']
 
 
 # Application definition
