@@ -25,7 +25,9 @@ SECRET_KEY = '_*u4ki-t@6uk$zzf2!ot!mueo0om2)&t=fwpm@g%*=^#0q0$)k'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['pixes-schoolclub.herokuapp.com', '127.0.0.1']
+
+ALLOWED_HOSTS = ['pixes-schoolclub.herokuapp.com', '127.0.0.1', '0.0.0.0']
+
 
 
 # Application definition
@@ -99,10 +101,14 @@ DATABASES = {
     }
 }
 
+import dj_database_url
+
+db_from_env = dj_database_url.config()
+DATABASES['default'].update(db_from_env)
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
