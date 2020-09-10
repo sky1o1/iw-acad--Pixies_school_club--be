@@ -23,9 +23,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '_*u4ki-t@6uk$zzf2!ot!mueo0om2)&t=fwpm@g%*=^#0q0$)k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['pixies-school-app.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['pixies-school-app.herokuapp.com']
 
 
 # Application definition
